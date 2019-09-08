@@ -65,7 +65,7 @@
     <article id="post-C++Primer Const" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/09/08/C++Primer Const/" class="article-date">
-  <time datetime="2019-09-08T11:34:00.071Z" itemprop="datePublished">2019-09-08</time>
+  <time datetime="2019-09-08T11:40:19.402Z" itemprop="datePublished">2019-09-08</time>
 </a>
     
   <div class="article-category">
@@ -90,72 +90,15 @@
       
         <h3 id="const限定符"><a href="#const限定符" class="headerlink" title="const限定符"></a>const限定符</h3><p>有时候我们需要定义这样一种变量，它的值不能被改变。例如，我们用这个变量表示缓冲区的大小。为了满足这一需求，我们可以使用<strong>const</strong>关键字对变量类型加以限定。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> BuffSize=<span class="number">512</span>    <span class="comment">//无法改变的缓冲区大小数值</span></span><br></pre></td></tr></table></figure>
-
-<p>因为const对象一旦创建后其值便不可改变，所以const对象必须初始化。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> i=get_size(); <span class="comment">//正确，运行时初始化</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> j=<span class="number">666</span>;        <span class="comment">//正确，编译时初始化</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> k;			<span class="comment">//错误,变量k需要设定预定值</span></span><br></pre></td></tr></table></figure>
-
-<p>默认状态下，const对象仅在文件中有效。若要使多个文件共享const，即在一个文件中定义const，在其他文件中声明并使用。则可在声明或者定义前加上<strong>extern</strong>关键字</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="keyword">const</span> <span class="keyword">int</span> BuffSize=<span class="number">512</span>;    <span class="comment">//fileA定义并初始化一个常量</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">const</span> <span class="keyword">int</span> BuffSize         <span class="comment">//fileB声明并可使用</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="const与引用"><a href="#const与引用" class="headerlink" title="const与引用"></a>const与引用</h3><ol>
-<li><p>下面的做法，看似要使引用绑定的对象不变。其实，引用本身并不是一个对象，而C++也不允许随意改变引用所绑定的对象。下例const只能保证无法通过k来改变k与par1共同的值。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> par1 = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> par2 = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;k = par1;</span><br><span class="line">k = par2;   <span class="comment">//错误，表达式必须是可修改的左值。</span></span><br><span class="line">par1 = <span class="number">3</span>;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; k &lt;&lt; <span class="built_in">endl</span>;  <span class="comment">//k=3 上</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>把引用绑定到const的对象上，称之为<strong>对常量的引用</strong>。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> par3=<span class="number">1024</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;r1=ci;</span><br><span class="line"><span class="keyword">int</span> &amp;r2=par3 ;	<span class="comment">//错误，试图让非常量引用指向常量对象(防止通过修改引用来改变常量对象值)。</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="const和指针"><a href="#const和指针" class="headerlink" title="const和指针"></a>const和指针</h3><ol>
-<li><p>指向常量的指针不能通过指针改变对象值;常量指针的地址无法改变 ；const靠近谁，谁(指针值，对象值)便是常量(该原则只适用于const指针)。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">20</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> *pi1 = &amp;a;     <span class="comment">//指针所指对象为常量。(靠近int )</span></span><br><span class="line"><span class="keyword">int</span>  *<span class="keyword">const</span> pi2 = &amp;a;	 <span class="comment">//指针为常量指针，指针将一直指向a。（靠近*）</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; ++(*pi1) &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//错误，表达式必须是可修改的左值。(不能通过指针改变对象值)</span></span><br><span class="line">pi1 = pi2;				 <span class="comment">//正确</span></span><br><span class="line">pi2 = pi1;				 <span class="comment">//错误(常量指针的地址无法改变)</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>要想存放常量对象的地址，也只能通过指向常量的指针。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> b = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> *pi3 = &amp;b;  <span class="comment">//错误，const int *型实体不能用于初始化 int *类型实体</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="顶层const与底层const"><a href="#顶层const与底层const" class="headerlink" title="顶层const与底层const"></a>顶层const与底层const</h3><ol>
-<li><p><strong>顶层const</strong>表示指针本身是一个常量，更一般的，顶层const可表示任意对象是常量。就第二句话，你可以认为我们所定义任意对象的对象名是对象值的一个指针。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> *<span class="keyword">const</span> p1 = &amp;i;  <span class="comment">//顶层const，指针p1地址不可修改</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> ci = <span class="number">10</span>;	 <span class="comment">//顶层const</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>底层const</strong>表示指针所指对象为常量。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> ci=<span class="number">10</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> *p2 = &amp;ci;  <span class="comment">//底层const，对象ci为常量</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> *<span class="keyword">const</span> p3=p2; <span class="comment">//第一个const为底层const(靠近int 所指对象为常量),第二个为顶层const</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>声明引用的const均为底层const。引用本身并不是对象，且绑定的对象无法随意改变，所以无const与非const之分。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> ci=<span class="number">10</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;r=ci;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="constexpr与常量表达式"><a href="#constexpr与常量表达式" class="headerlink" title="constexpr与常量表达式"></a>constexpr与常量表达式</h3><ol>
-<li><p><strong>常量表达式</strong>指值不会改变且在编译过程就能得到结果的表达式。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> max = <span class="number">32</span>;			<span class="comment">//是常量表达式</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> limit = max + <span class="number">1</span>;	<span class="comment">//是常量表达式</span></span><br><span class="line"><span class="keyword">int</span> BuffSize = <span class="number">512</span>;  		<span class="comment">//值可能会改变</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> sz = get_size();	<span class="comment">//编译过程无法得到结果</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>可将变量声明为<strong>constexpr</strong>类型来验证变量值是否是常量表达式.。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">constexpr</span> <span class="keyword">int</span> mf = <span class="number">20</span>;			<span class="comment">//是常量表达式</span></span><br><span class="line"><span class="keyword">constexpr</span> <span class="keyword">int</span> limit = mf + <span class="number">1</span>;  	<span class="comment">//是常量表达式</span></span><br><span class="line"><span class="keyword">constexpr</span> <span class="keyword">int</span> sz = size();		<span class="comment">//只有当size()是constexpr函数时才正确。</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>字面值类型</strong>即类型简单，值显而易见的类型，包括算术类型，引用与指针自定义类型Sales_item,IO库，string类型则不属于字面值类型，只有字面值类型可被定义为constexpr。</p>
-</li>
-<li><p>在constexpr声明中如果定义了一个指针，constexpr限定符仅对指针有效。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> *p1 = &amp;a;		<span class="comment">//指向整型常量的指针</span></span><br><span class="line"><span class="keyword">constexpr</span> <span class="keyword">int</span> *p2 = <span class="literal">NULL</span>;	<span class="comment">//指向整数的常量指针  p2: int *const</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="指针，常量，类型别名"><a href="#指针，常量，类型别名" class="headerlink" title="指针，常量，类型别名"></a>指针，常量，类型别名</h3><ol>
-<li>注意以下情况。pstr为指向char的指针，用const修饰pstr后，类型为指向char的常量指针。<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">char</span>* pstr;</span><br><span class="line"><span class="keyword">const</span> pstr p1 = <span class="string">"asd"</span>;	<span class="comment">//char *const p1;</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="const与类"><a href="#const与类" class="headerlink" title="const与类"></a>const与类</h3><ol>
-<li>const类成员<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-
+        
+          <p class="article-more-link">
+            <a href="/2019/09/08/C++Primer Const/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/08/C++Primer Const/" data-id="ck0awld1h0001c4v9fih0ag9j" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/08/C++Primer Const/" data-id="ck0awof6t0000nwv9paehnr9e" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编程语言/">编程语言</a></li></ul>
@@ -206,7 +149,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/08/back/" data-id="ck0awld190000c4v93bi9m5xl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/08/back/" data-id="ck0awof720001nwv9clr9swn5" class="article-share-link">Share</a>
       
       
     </footer>
