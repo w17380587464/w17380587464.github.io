@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>汇编基础第三章 | BenBoErBa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="简答题 1. 举例说明三种不同的指令助记符 mov add    mul   不区分大小写  2. 什么是调用规范，如何在汇编语言中声明并使用它 1.model flat,stdcall">
+<meta name="keywords" content="编程语言,Assembly">
+<meta property="og:type" content="article">
+<meta property="og:title" content="汇编基础第三章">
+<meta property="og:url" content="http://yoursite.com/2019/09/08/09_08_2019Assembly01/index.html">
+<meta property="og:site_name" content="BenBoErBa">
+<meta property="og:description" content="简答题 1. 举例说明三种不同的指令助记符 mov add    mul   不区分大小写  2. 什么是调用规范，如何在汇编语言中声明并使用它 1.model flat,stdcall">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190618123119524.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019061813544569.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JpZ19TdHVkeV9GYXRoZXI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190701183150741.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JpZ19TdHVkeV9GYXRoZXI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190618171022152.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190618174440385.png">
+<meta property="og:updated_time" content="2019-09-08T12:10:40.087Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="汇编基础第三章">
+<meta name="twitter:description" content="简答题 1. 举例说明三种不同的指令助记符 mov add    mul   不区分大小写  2. 什么是调用规范，如何在汇编语言中声明并使用它 1.model flat,stdcall">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190618123119524.png">
+  
+    <link rel="alternate" href="/atom.xml" title="BenBoErBa" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">BenBoErBa</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-09_08_2019Assembly01" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/08/09_08_2019Assembly01/" class="article-date">
+  <time datetime="2019-09-08T12:10:40.086Z" itemprop="datePublished">2019-09-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Diary/">Diary</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      汇编基础第三章
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="简答题"><a href="#简答题" class="headerlink" title="简答题"></a>简答题</h3><p> <strong>1. 举例说明三种不同的指令助记符</strong><br> mov add    mul   不区分大小写</p>
+<p> <strong>2. 什么是调用规范，如何在汇编语言中声明并使用它</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.model flat,stdcall</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<p>  <strong>3. 如何在程序中为堆栈预留空间</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.stack 4096</span><br></pre></td></tr></table></figure>
+
+<p><strong>4. 说明为什么汇编器语言不太正确</strong><br>        从汇编语言源文件到执行要经过 <strong>编辑 汇编 链接 执行</strong>几个过程，有以下步骤：<br>    (1).使用文本编译器创建ASCII文件，也就是源文件。<br>    (2).<strong>汇编器</strong>读取源文件，并生成<strong>目标文件</strong>,或者，也会生成<strong>列表文件</strong><br>    (3).<strong>链接器</strong>读取并检查目标文件，寻找程序中对<strong>链接库</strong>的调用，并从连接库中复制被请求的过程，生成<strong>可执行文件</strong><br>    (4).操作系统加载可执行程序读入内存，并使CPU分支该程序的起始地址。<br><img src="https://img-blog.csdnimg.cn/20190618123119524.png" alt="在这里插入图片描述"></p>
+<p><strong>5. 说明大端序与小端序之间的区别，并在网上查找这些术语的起源</strong><br>    小端序中最低有效字节放在第一个内存地址中。 假设有DWORD 12345678h分配的起始地址为0000,则其最低有效字节78h放入0000，56h放入0001。</p>
+<p><strong>6. 为什么在代码中使用符号常量而不是整数常量</strong><br>    符号常量是用符号来代替数值，通过合理的命名以便于理解代码。</p>
+<p><strong>7. 源文件和列表文件的区别是什么</strong><br>源文件是ASCII编码的程序源代码， 列表文件包括源文件的副本，行号每条指令的数字地址，每条指令的机器代码字节(十六进制)以及<strong>符号表</strong>。<br>符号表中包含了程序中所使用的所有标识符名称，段和相关信息。<br>指令的数字地址是相对程序占用的起点而言的，从0000 0000开始。</p>
+<p>Add Two  asm文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.386</span><br><span class="line">.model flat,stdcall</span><br><span class="line">.stack 4096</span><br><span class="line"></span><br><span class="line">.data</span><br><span class="line">sum DWORD 0ah</span><br><span class="line">.code</span><br><span class="line">main PROC</span><br><span class="line">	mov eax,3</span><br><span class="line">	add eax,4</span><br><span class="line">main ENDP</span><br><span class="line">end main</span><br></pre></td></tr></table></figure>
+
+<p>vs2017生成Add Two的列表文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">Microsoft (R) Macro Assembler Version 14.16.27031.1	    06/18/19 13:16:32</span><br><span class="line">a.asm							     Page 1 - 1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">				.386</span><br><span class="line">				.model flat,stdcall</span><br><span class="line">				.stack 4096</span><br><span class="line"></span><br><span class="line"> 00000000			.data</span><br><span class="line"> 00000000 0000000A		sum DWORD 0ah</span><br><span class="line"></span><br><span class="line"> 00000000			.code</span><br><span class="line"> 00000000			main PROC</span><br><span class="line"> 00000000  B8 00000003			mov eax,3</span><br><span class="line"> 00000005  83 C0 04			add eax,4</span><br><span class="line"> 00000008			main ENDP</span><br><span class="line">				end main </span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">Microsoft (R) Macro Assembler Version 14.16.27031.1	    06/18/19 13:16:32</span><br><span class="line">a.asm							     Symbols 2 - 1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Segments and Groups:</span><br><span class="line"></span><br><span class="line">                N a m e                 Size     Length   Align   Combine Class</span><br><span class="line"></span><br><span class="line">FLAT . . . . . . . . . . . . . .	GROUP</span><br><span class="line">STACK  . . . . . . . . . . . . .	32 Bit	 00001000 DWord	  Stack	  &apos;STACK&apos;	 </span><br><span class="line">_DATA  . . . . . . . . . . . . .	32 Bit	 00000004 DWord	  Public  &apos;DATA&apos;	</span><br><span class="line">_TEXT  . . . . . . . . . . . . .	32 Bit	 00000008 DWord	  Public  &apos;CODE&apos;	</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Procedures, parameters, and locals:</span><br><span class="line"></span><br><span class="line">                N a m e                 Type     Value    Attr</span><br><span class="line"></span><br><span class="line">main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000008 Public STDCALL</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Symbols:</span><br><span class="line"></span><br><span class="line">                N a m e                 Type     Value    Attr</span><br><span class="line"></span><br><span class="line">@CodeSize  . . . . . . . . . . .	Number	 00000000h   </span><br><span class="line">@DataSize  . . . . . . . . . . .	Number	 00000000h   </span><br><span class="line">@Interface . . . . . . . . . . .	Number	 00000003h   </span><br><span class="line">@Model . . . . . . . . . . . . .	Number	 00000007h   </span><br><span class="line">@code  . . . . . . . . . . . . .	Text   	 _TEXT</span><br><span class="line">@data  . . . . . . . . . . . . .	Text   	 FLAT</span><br><span class="line">@fardata?  . . . . . . . . . . .	Text   	 FLAT</span><br><span class="line">@fardata . . . . . . . . . . . .	Text   	 FLAT</span><br><span class="line">@stack . . . . . . . . . . . . .	Text   	 FLAT</span><br><span class="line">sum  . . . . . . . . . . . . . .	DWord	 00000000 _DATA	</span><br><span class="line"></span><br><span class="line">	   0 Warnings</span><br><span class="line">	   0 Errors</span><br></pre></td></tr></table></figure>
+
+<p><strong>8. 数据标号与代码标号的区别是什么</strong><br>    <strong>数据标号</strong>表示变量的位置，它提供了一种简便的方式操作变量。例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aaa DWORD 0123h</span><br></pre></td></tr></table></figure>
+
+<p> <strong>代码标号</strong>标记程序的代码位置，使用冒号结束，通常用于循环与跳转。例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">target:</span><br><span class="line">	mov eax  12</span><br><span class="line">	...</span><br><span class="line">	...</span><br><span class="line">	jmp target</span><br></pre></td></tr></table></figure>
+
+<p><strong>9. 标识符可否以数字开头</strong><br>标识符是由程序员自定义的，用于标记变量，常数，子程序和代码位置的标签。命名有以下规则:<br>(1).1-247位字符。<br>(2).不区分大小写。<br>(3).首位必须是字母 下划线_ @ ? $<br>(5).不能与<strong>汇编器保留字</strong>重复</p>
+<p><strong>10. 十六进制常量可否写为0x3A</strong><br>不能         ？？？？？？</p>
+<p><strong>11. 汇编语言伪指令是否在运行时执行</strong><br>    <strong>伪指令(directive,区别与指令的instruction)</strong>是嵌入代码中的命令,由汇编器识别与执行，不在运行时执行。例如DWORD,code,data。可以定义变量，宏和子程序，为内存段分配空间。</p>
+<p><strong>12. 汇编语言伪指令可写为大写字母与小写字母的任意组合</strong><br>    参见10</p>
+<p><strong>13. 说出汇编语言指令的四个基本组成部分</strong><br>    标号(可选)     助记符(必选)     操作数(通常必须)     注释(可选)  </p>
+<p> <strong>14.    MOV是指令助记符</strong><br>     emmmm</p>
+<p><strong>15. 代码标号后跟冒号，而数据标号没有</strong><br>    对勾<br><strong>16. 给出注释块的列子</strong><br><img src="https://img-blog.csdnimg.cn/2019061813544569.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JpZ19TdHVkeV9GYXRoZXI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>17. 使用数字地址编写指令来访问变量，为什么不是一个好主意</strong><br> 数字不便于记忆，也容易与数值弄混<br><strong>18. 必须向ExitProcess 过程传递什么参数</strong><br>    DWORD，书中p47示例代码中:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXitProcess PROTO,dwExitCode:DWORD</span><br></pre></td></tr></table></figure>
+
+<p><strong>19. 什么伪指令用来结束子程序</strong><br>    ENDP 伪指令，标记一个过程结束<br>    END 伪指令，标记一个程序结束<br><strong>20. 32位模式下，END伪指令中的标识符有什么作用</strong><br>    标识程序结束，引入程序入口                ???????</p>
+<p><strong>21. PROTO伪指令的作用是什么</strong><br>函数声明</p>
+<p><strong>22. 目标文件由链接器生成</strong><br>由汇编器生成目标文件 列表文件 连接器生成可执行文件</p>
+<p><strong>23. 列表文件由汇编器生成</strong><br>    对勾</p>
+<p><strong>24. 链接库只有在生成可执行文件之前才加入到程序中</strong><br>对勾</p>
+<p><strong>25.-29</strong><br>略</p>
+<h3 id="算法基础"><a href="#算法基础" class="headerlink" title="算法基础"></a>算法基础</h3><p><strong>1. 定义四个符号常量分别表示25的十进制，二进制，八进制，十六进制</strong></p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">.386</span></span><br><span class="line"><span class="meta">.model</span> flat,stdcall</span><br><span class="line"><span class="meta">.stack</span> <span class="number">4096</span></span><br><span class="line"></span><br><span class="line"><span class="meta">.data</span></span><br><span class="line"></span><br><span class="line">val1 <span class="built_in">DWORD</span> <span class="number">25d</span></span><br><span class="line">val2 <span class="built_in">DWORD</span> <span class="number">19h</span></span><br><span class="line">val3 <span class="built_in">DWORD</span> <span class="number">00011001b</span></span><br><span class="line"></span><br><span class="line"><span class="meta">.data</span></span><br><span class="line">val4 <span class="built_in">DWORD</span> <span class="number">31o</span>  <span class="comment">;八进制</span></span><br><span class="line">val5 <span class="built_in">DWORD</span> <span class="number">31q</span>	<span class="comment">;八进制</span></span><br><span class="line"></span><br><span class="line"><span class="meta">.code</span></span><br><span class="line">main PROC</span><br><span class="line">	<span class="keyword">mov</span> <span class="built_in">eax</span>,<span class="number">0</span></span><br><span class="line">	<span class="keyword">mov</span> <span class="built_in">eax</span>,val1</span><br><span class="line">	<span class="keyword">mov</span> <span class="built_in">eax</span>,<span class="number">0</span> </span><br><span class="line">	<span class="keyword">mov</span> <span class="built_in">eax</span>,val3</span><br><span class="line">	<span class="keyword">mov</span> <span class="built_in">eax</span>,<span class="number">0</span> </span><br><span class="line">	<span class="keyword">mov</span> <span class="built_in">eax</span>,val2 </span><br><span class="line">	<span class="keyword">mov</span> <span class="built_in">eax</span>,<span class="number">0</span> </span><br><span class="line">	<span class="keyword">mov</span> <span class="built_in">eax</span>,val4 </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">main ENDP</span><br><span class="line">end main </span><br><span class="line"></span><br><span class="line"><span class="meta"> .code</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>2. 通过实践，判断一个程序可否有多个代码段和数据段</strong><br>    可以，见上例</p>
+<p><strong>3. 编写数据定义，把一个双字按大端顺序放在内存中</strong><br>    ????????????</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">.data</span><br><span class="line">comment !</span><br><span class="line">	Storing the value 01020304h</span><br><span class="line">!</span><br><span class="line"></span><br><span class="line">myVal LABEL DWORD</span><br><span class="line">BYTE 04h,03h,02h,01h</span><br><span class="line"></span><br><span class="line">.code </span><br><span class="line">main PROC</span><br><span class="line">mov eax, myVal</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/20190701183150741.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JpZ19TdHVkeV9GYXRoZXI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><strong>4. 试发现用DWORND类型定义一个变量时，能否向其赋予负值，这说明了汇编器类型检查的什么问题</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20190618171022152.png" alt><br>可以向DWORD赋负值，-1在寄存器中都是以 </p>
+<p><strong>5. 编写一个程序，包含两条指令：(1)EAX寄存器加5，(2)EDX寄存器加5。生成列表文件并检查由汇编器生成的机器代码。发现两条指令的不同之处了吗？是什么</strong><br><img src="https://img-blog.csdnimg.cn/20190618174440385.png" alt="在这里插入图片描述"><br>操作码不同，向EAX和EBX中做加法是不同的指令</p>
+<p><strong>6. 假设有数值456789ABh，按小端输出其字节内容</strong><br>ABh 89h 56h 45h</p>
+<p><strong>7. 声明一个数字*，其包含有120个未初始化无符号双字数值</strong><br>myVal DWORD  120 DUP(?)</p>
+<p><strong>8. 声明一个字节数组，并将其初始化为字母表前5个字母</strong><br>my  BYTE  5 DUP (“ABCDE”)<br>val BYTE “ABCDE”</p>
+<p><strong>9.声明一个32位有符号整型变量，并初始化为尽可能小的十进制负数</strong><br>myVal SDWORD 800000000h</p>
+<p><strong>10. 声明一个16位无符号整数变量，使其具有三个初始值</strong><br>myVal WORD 3 DUP(0001h,0002h,0003h)</p>
+<p><strong>11.声明一个字符串变量，包含你最喜欢颜色的名字，并将其初始化为空字节结束的字符串。</strong><br>myVal BYTE “COLOR”,0</p>
+<p><strong>12.声明一个未初始化数组dArray,  包含50个有符号双字。</strong><br>myVal DWORD 50 DUP(?)</p>
+<p><strong>13.声明一个字符串变量，包含单词“TEST” 并重复500次。</strong><br>myVal BYTE 500 DUP(“TEST”)</p>
+<p><strong>14.声明一个数组brray,包含20个无符号字节，并将其所有元素都初始化为0。15.写出下述双字变量在内存中的字节序列(从最低字节到最高字节):<br>val1 DWORD 87654321h</strong><br>myVal BYTE 20 DUP(0)</p>
+<h3 id="编程练习"><a href="#编程练习" class="headerlink" title="编程练习"></a>编程练习</h3><p><strong>1. 整数表达式的计算</strong><br>参考3.2节的程序AddTwo,编写程序，利用寄存器计算表达式: A=(A+B)-(C-D)。整数值分配给寄存器EAX、EBX、ECX和EDX。</p>
+<p><strong>2.符号整数常量</strong><br>编写程序，为一周七天定义符号常量。创建一个数组变量，用这些符号常量作为其初始值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Sunday    = 0</span><br><span class="line">Monday    = 1</span><br><span class="line">Tuesday   = 2</span><br><span class="line">Wednesday = 3</span><br><span class="line">Thursday  = 4</span><br><span class="line">Friday    = 5</span><br><span class="line">Saturday  = 6</span><br><span class="line"></span><br><span class="line">.data</span><br><span class="line"></span><br><span class="line">myDays BYTE Sunday,Monday,Tuesday,Wednesday,Thursday,</span><br><span class="line">		Friday,Saturday</span><br></pre></td></tr></table></figure>
+
+<p><strong>3.数据定义</strong><br>编写程序，对3,4 节表3-2中列出的每个数据类型进行定义， 并将每个变量都初始化为与其类型- -致的数值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">.data</span><br><span class="line">var1 BYTE 10h</span><br><span class="line">var2 SBYTE -14</span><br><span class="line">var3 WORD 2000h</span><br><span class="line">var4 SWORD +2345</span><br><span class="line">var5 DWORD 12345678h</span><br><span class="line">var6 SDWORD -2342423</span><br><span class="line">var7 FWORD 0</span><br><span class="line">var8 QWORD 1234567812345678h</span><br><span class="line">var9 TBYTE 1000000000123456789Ah</span><br><span class="line">var10 REAL4 -1.25</span><br><span class="line">var11 REAL8 3.2E+100</span><br><span class="line">var12 REAL10 -6.223424E-2343</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>4.符号文本常量</strong><br>编写程序，定义几个字符串文本(引号之间的字符)的符号名称，并将每个符号名称都用于变量定义。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sym1 TEXTEQU  &lt;&quot;Press any key to continue...&quot;&gt;</span><br><span class="line">.data</span><br><span class="line"></span><br><span class="line">msg1 BYTE sym1</span><br></pre></td></tr></table></figure>
+
+<p><strong>5. AddTwoSum的列表文件</strong><br>3.8 2生成AddTwoSum程序的列表文件，为每条指令的机器代码字节编写说明。某些字节值的含义可能需要猜测。</p>
+<p><strong>6. AddVariables程序</strong><br>修改AddVariables程序使其使用64位变量。描述汇编器产生的语法错误，并说明为解决这些错误采取的措施</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/09/08/09_08_2019Assembly01/" data-id="ck0axrgwa0007x8v97f2ldyy7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Assembly/">Assembly</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编程语言/">编程语言</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/09/08/09_08_2019C++01/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/">Diary</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程语言/">编程语言</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/08/09_08_2019Assembly01/">汇编基础第三章</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/08/09_08_2019C++01/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 W<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
