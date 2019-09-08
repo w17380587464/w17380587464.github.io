@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Linux进程基础 | BenBoErBa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="相关概念 程序和进程 并发 单道程序设计 多道程序设计 CPU和MMU(Memery Manage Unit)">
+<meta name="keywords" content="C++,Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux进程基础">
+<meta property="og:url" content="http://yoursite.com/2019/09/08/09_08_2019Linux03/index.html">
+<meta property="og:site_name" content="BenBoErBa">
+<meta property="og:description" content="相关概念 程序和进程 并发 单道程序设计 多道程序设计 CPU和MMU(Memery Manage Unit)">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190424221437762.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JpZ19TdHVkeV9GYXRoZXI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190424221641211.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JpZ19TdHVkeV9GYXRoZXI=,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-09-08T12:29:08.772Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux进程基础">
+<meta name="twitter:description" content="相关概念 程序和进程 并发 单道程序设计 多道程序设计 CPU和MMU(Memery Manage Unit)">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190424221437762.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JpZ19TdHVkeV9GYXRoZXI=,size_16,color_FFFFFF,t_70">
+  
+    <link rel="alternate" href="/atom.xml" title="BenBoErBa" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">BenBoErBa</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-09_08_2019Linux03" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/08/09_08_2019Linux03/" class="article-date">
+  <time datetime="2019-09-08T12:29:08.772Z" itemprop="datePublished">2019-09-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/CS/">CS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux进程基础
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h2><ul>
+<li>程序和进程</li>
+<li>并发</li>
+<li>单道程序设计</li>
+<li>多道程序设计</li>
+<li>CPU和MMU(Memery Manage Unit)<a id="more"></a></li>
+<li>进程控制块PCB</li>
+<li>进程状态</li>
+</ul>
+<p><strong>CPU基本架构</strong><br><img src="https://img-blog.csdnimg.cn/20190424221437762.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JpZ19TdHVkeV9GYXRoZXI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><strong>MMU基本工作原理（32位机）</strong><br><img src="https://img-blog.csdnimg.cn/20190424221641211.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JpZ19TdHVkeV9GYXRoZXI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>整个虚拟内存中   真正占用内存上限为4G，实际远小于4G</p>
+<ul>
+<li>MMU位于CPU内部，作为硬件存在</li>
+<li>0-3G中：text代码         data数据   heap低地址向高地址   stack高地址向低地址。整个称为用户空间。</li>
+<li>3G-4G：内核区，包含PCB</li>
+</ul>
+<p><strong>PCB</strong><br>Linux中，内核的PCB是task_struct结构体<br>其中包含进程状态，进程切换时需要保存的寄存器，虚拟地址空间信息，控制终端信息，当前目录，umask，文件描述符表(包含很多指向file结构体的指针),信号相关信息，用户id和组id，会话(session)和进程组，进程可使用的资源上限。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//输出所有的环境变量</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">char</span> ** environ;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	<span class="keyword">for</span> (i=<span class="number">0</span>; environ[i];i++)&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%s,\n"</span>,environ[i]);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//三个关于环境变量函数的操作 man~~~</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">char</span> *val;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">char</span>*name=<span class="string">"ABCC"</span>;</span><br><span class="line"></span><br><span class="line">	val=getenv(name);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"1  %s--&gt;%s\n"</span>,val,name);</span><br><span class="line"></span><br><span class="line">	setenv(name,<span class="string">"ahula"</span>,<span class="number">0</span>);  <span class="comment">//0表示若值存在，则不覆盖.</span></span><br><span class="line">	val=getenv(name);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"2   %s--&gt;%s\n"</span>,val,name);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	unsetenv(name);</span><br><span class="line">	val=getenv(name);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"3   %s--&gt;%s\n"</span>,val,name);</span><br><span class="line"></span><br><span class="line">	setenv(name,<span class="string">"benboerba1"</span>,<span class="number">1</span>);</span><br><span class="line">	setenv(name,<span class="string">"lllllll"</span>,<span class="number">1</span>);</span><br><span class="line">	val=getenv(name);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"4   %s--&gt;%s\n"</span>,val,name);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//分别输出父子进程的 pid</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">pid_t</span> pid;</span><br><span class="line">	pid =fork();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(pid&lt;<span class="number">0</span>)&#123;</span><br><span class="line">		perror(<span class="string">"fork err!\n"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>) ;</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span> (pid==<span class="number">0</span>)&#123;</span><br><span class="line">		<span class="keyword">int</span> p_son=getpid();</span><br><span class="line">		<span class="keyword">int</span> p_fa=getppid();</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Child process  pid=%d!, fa_pid=%d\n"</span>,p_son,p_fa);</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"This is father process pid_fa=%d  pid_son=%d \n"</span>,getpid(),pid);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//循环产生五个子进程</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">pid_t</span> pid;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> ( i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)&#123;</span><br><span class="line">		sleep(<span class="number">1</span>);</span><br><span class="line">		pid=fork();    <span class="comment">//父子进程都位于该行</span></span><br><span class="line">		<span class="keyword">if</span>(pid==<span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(i&lt;<span class="number">5</span>) <span class="built_in">printf</span>(<span class="string">"I'm Child and pid=%d\n"</span>,getpid());</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>进程共享</strong></p>
+<pre><code>gcc gd.c -o run -g     #-g选项后才可调试
+./run</code></pre><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> var=<span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">pid_t</span> pid;</span><br><span class="line">	pid=fork();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(pid&gt;<span class="number">0</span>)&#123;</span><br><span class="line">		sleep(<span class="number">1</span>);</span><br><span class="line">		var=<span class="number">55</span>;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Father process,pid=%d  var=%d\n"</span>,getpid(),var);</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		var=<span class="number">100</span>;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Son process, pide=%d ,var=%d\n"</span>,getpid(),var);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/09/08/09_08_2019Linux03/" data-id="ck0ayixnn0006ycv901lilyt1" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/09/08/09_08_2019Assembly02/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          第四章数据传送，寻址与算术基础
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/09/08/09_08_2019Linux02/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Linux管道通信</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CS/">CS</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/08/09_08_2019Assembly02/">第四章数据传送，寻址与算术基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/08/09_08_2019Linux03/">Linux进程基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/08/09_08_2019Linux02/">Linux管道通信</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/08/09_08_2019Assembly01/">汇编基础第三章</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/08/09_08_2019C++01/">C++ Primer const整理</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 W<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

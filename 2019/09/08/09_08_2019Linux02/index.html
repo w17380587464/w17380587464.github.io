@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Linux管道通信 | BenBoErBa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="IPC(进程间通信 Inter Process Comnunication)目前常用的通信方式:  管道    最简单 信号     开销最小 共享映射区域    在无关系的进程间通信 本地套接字    最复杂，最稳定">
+<meta name="keywords" content="C++,Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux管道通信">
+<meta property="og:url" content="http://yoursite.com/2019/09/08/09_08_2019Linux02/index.html">
+<meta property="og:site_name" content="BenBoErBa">
+<meta property="og:description" content="IPC(进程间通信 Inter Process Comnunication)目前常用的通信方式:  管道    最简单 信号     开销最小 共享映射区域    在无关系的进程间通信 本地套接字    最复杂，最稳定">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019042713473687.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JpZ19TdHVkeV9GYXRoZXI=,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-09-08T12:26:53.818Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux管道通信">
+<meta name="twitter:description" content="IPC(进程间通信 Inter Process Comnunication)目前常用的通信方式:  管道    最简单 信号     开销最小 共享映射区域    在无关系的进程间通信 本地套接字    最复杂，最稳定">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/2019042713473687.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JpZ19TdHVkeV9GYXRoZXI=,size_16,color_FFFFFF,t_70">
+  
+    <link rel="alternate" href="/atom.xml" title="BenBoErBa" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">BenBoErBa</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-09_08_2019Linux02" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/08/09_08_2019Linux02/" class="article-date">
+  <time datetime="2019-09-08T12:26:53.818Z" itemprop="datePublished">2019-09-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/CS/">CS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux管道通信
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>IPC(进程间通信 Inter Process Comnunication)<br>目前常用的通信方式:</p>
+<ul>
+<li>管道    最简单</li>
+<li>信号     开销最小</li>
+<li>共享映射区域    在无关系的进程间通信</li>
+<li>本地套接字    最复杂，最稳定</li>
+</ul>
+<a id="more"></a>
+<h5 id="文件类型"><a href="#文件类型" class="headerlink" title="文件类型"></a>文件类型</h5><p>-文件<br> d目录<br>l 符号链接</p>
+<p> 伪文件(不占用磁盘空间):<br> s套接字<br> b块设备<br> c字符设备<br> p管道    （内核缓冲区）</p>
+<pre><code>查看缓冲区大小 #ulimit -a    512字节*8</code></pre><p><img src="https://img-blog.csdnimg.cn/2019042713473687.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JpZ19TdHVkeV9GYXRoZXI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>管道局限性(其实现方式为环形队列):</strong></p>
+<ul>
+<li><p>数据自己读不能自己写</p>
+</li>
+<li><p>数据一旦被读走，便不再存在</p>
+</li>
+<li><p>半双工，数据只能在一个方向上流动 (同时刻)</p>
+</li>
+<li><p>只能在有公共祖先的进程见使用管道通信</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> fd[<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">	<span class="comment">//fd[0] 读管道   fd[1]写管道</span></span><br><span class="line">	<span class="comment">//pipe返回 0 则成功 否则返回-1</span></span><br><span class="line">	<span class="keyword">int</span> ret=pipe(fd);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"ret==%d\n"</span>,ret);</span><br><span class="line">	<span class="keyword">if</span> (ret==<span class="number">-1</span>)&#123;</span><br><span class="line">		perror(<span class="string">"pipe error:\n"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">pid_t</span> pid=fork();</span><br><span class="line">	<span class="keyword">if</span>(pid&lt;<span class="number">0</span>)&#123;</span><br><span class="line">		perror(<span class="string">"pipe error:\n"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="number">0</span>==pid)&#123;</span><br><span class="line">	<span class="comment">//	#子进程读数据</span></span><br><span class="line">		close(fd[<span class="number">1</span>]);</span><br><span class="line">		<span class="keyword">char</span> buf[<span class="number">1024</span>];</span><br><span class="line">		<span class="comment">//read返回值 是实际读取到的字节数。</span></span><br><span class="line">		ret=read(fd[<span class="number">0</span>],buf,<span class="keyword">sizeof</span>(buf));</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"ret==%d\n"</span>,ret);</span><br><span class="line">		<span class="comment">//末尾读到0</span></span><br><span class="line">		<span class="keyword">if</span>(<span class="number">0</span>==ret)</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"--------\n"</span>);</span><br><span class="line">		<span class="comment">//将buf写入第一个参数所指的文件内。</span></span><br><span class="line">		write(<span class="number">1</span>,buf,ret);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Son successfully output!\n"</span>);</span><br><span class="line">	&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">		sleep(<span class="number">1</span>);</span><br><span class="line">		close(fd[<span class="number">0</span>]);</span><br><span class="line">		write(fd[<span class="number">1</span>],<span class="string">"strstr   str\n"</span>,<span class="number">13</span>);</span><br><span class="line">	<span class="comment">//	wait(NULL);</span></span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><strong>练习：借助共同的文件传递数据</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">pid_t</span> pid;</span><br><span class="line">	pid=fork();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(pid&lt;<span class="number">0</span>)&#123;</span><br><span class="line">		perror(<span class="string">"fork error!\n"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(pid==<span class="number">0</span>)&#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> fd=open(<span class="string">"new.txt"</span>,O_WRONLY);</span><br><span class="line">		<span class="keyword">char</span> ame[]=<span class="string">"acffdsds ss\n"</span>;</span><br><span class="line">		<span class="keyword">int</span> len=<span class="built_in">strlen</span>(ame);</span><br><span class="line">		write(fd,ame,len);</span><br><span class="line">		close(fd);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Son exit_____\n"</span>);</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		sleep(<span class="number">1</span>);</span><br><span class="line">		<span class="keyword">int</span> fd=open(<span class="string">"new.txt"</span>,O_RDONLY);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">char</span> buff[<span class="number">1024</span>];</span><br><span class="line">		read(fd,buff,<span class="number">1024</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%s\n"</span>,buff);</span><br><span class="line">		close(fd);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"father eixt_______\n"</span>);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>mmap函数</strong><br>mmap获取文件指针操作文件<br>创建的映射区权限要小于打开文件的权限；<br>创建映射区时有一次隐式的读操作。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/mman.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> fd=open(<span class="string">"mytext.txt"</span>,O_CREAT|O_RDWR,<span class="number">0644</span>);</span><br><span class="line">	<span class="keyword">if</span>(fd&lt;<span class="number">0</span>)</span><br><span class="line">		perror(<span class="string">"open error\n"</span>);</span><br><span class="line">	<span class="comment">//文件截断为4字节  返回的len不代表大小</span></span><br><span class="line">	<span class="comment">//注意truncate 和 ftruncate 的参数区别</span></span><br><span class="line">	ftruncate(fd,<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//最后一个参数offset文件指针偏移量。必须是4096的整数倍  mmap对文件创建映射。</span></span><br><span class="line">	<span class="comment">//映射区由MMU创建 单位为页。</span></span><br><span class="line">	<span class="comment">//  映射区权限prot</span></span><br><span class="line">	<span class="comment">//第二参数 文件大小 不可为0  --&gt;映射区大小不可为0</span></span><br><span class="line">	<span class="keyword">char</span> *p =mmap(<span class="literal">NULL</span>,<span class="number">4</span>,PROT_READ|PROT_WRITE,MAP_SHARED,fd,<span class="number">0</span>);</span><br><span class="line">	<span class="comment">//不检查返回值会死的很难看？</span></span><br><span class="line">	<span class="keyword">if</span>(MAP_FAILED==p)&#123;</span><br><span class="line">		perror(<span class="string">"mmap error:"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//通过指针操作内存</span></span><br><span class="line">	<span class="built_in">strcpy</span>(p,<span class="string">"ac"</span>);</span><br><span class="line">	<span class="comment">//关闭mmap</span></span><br><span class="line">	<span class="keyword">int</span> ret=munmap(p,<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">	close(fd);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>mmap父子进程通信</strong></p>
+<p>通过flag参数的调整可以控制信息覆盖。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/mman.h&gt;</span></span></span><br><span class="line"><span class="keyword">int</span> var=<span class="number">100</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">pid_t</span> pid;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> fd=open(<span class="string">"com.txt"</span>,O_RDWR|O_CREAT|O_TRUNC,<span class="number">0644</span>);</span><br><span class="line">	ftruncate(fd,<span class="number">10</span>);</span><br><span class="line">	<span class="keyword">int</span>* m=(<span class="keyword">int</span> *)mmap(<span class="literal">NULL</span>,<span class="number">10</span>,PROT_WRITE|PROT_READ,MAP_PRIVATE,fd,<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span>(<span class="number">0</span>==MAP_FAILED)&#123;</span><br><span class="line">		perror(<span class="string">"mmap error!\n"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	close(fd);</span><br><span class="line"></span><br><span class="line">	pid=fork();</span><br><span class="line">	<span class="keyword">if</span>(<span class="number">0</span>==pid)&#123;</span><br><span class="line">		var=<span class="number">1000</span>;</span><br><span class="line">		*m=<span class="number">20</span>;</span><br><span class="line"></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Son var=%d   m*=%d\n"</span>,var,*m);</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(pid&gt;<span class="number">0</span>)&#123;</span><br><span class="line">		sleep(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Father var=%d m*=%d\n"</span>,var,*m);</span><br><span class="line">		munmap(m,<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>匿名映射（不通过文件传递信息）</strong><br>flag参数应该为shared 不然没个屌用。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/mman.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">pid_t</span> pid;</span><br><span class="line">	<span class="keyword">int</span> *p=mmap(<span class="literal">NULL</span>,<span class="number">10</span>,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANON,<span class="number">-1</span>,<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	pid=fork();</span><br><span class="line">	<span class="keyword">if</span>(<span class="number">0</span>==pid)&#123;</span><br><span class="line">		*p=<span class="number">666</span>;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Son *p=%d\n"</span>,*p);</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(pid&gt;<span class="number">0</span>)&#123;</span><br><span class="line">		sleep(<span class="number">1</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Far *p=%d\n"</span>,*p);</span><br><span class="line">		munmap(p,<span class="number">10</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>mmap 无血缘关系进程通信</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">文件····················</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/09/08/09_08_2019Linux02/" data-id="ck0ayixnm0005ycv9bmb3l9sh" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/09/08/09_08_2019Linux03/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Linux进程基础
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/09/08/09_08_2019Assembly01/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">汇编基础第三章</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CS/">CS</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/08/09_08_2019Assembly02/">第四章数据传送，寻址与算术基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/08/09_08_2019Linux03/">Linux进程基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/08/09_08_2019Linux02/">Linux管道通信</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/08/09_08_2019Assembly01/">汇编基础第三章</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/08/09_08_2019C++01/">C++ Primer const整理</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 W<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

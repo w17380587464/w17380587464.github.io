@@ -62,10 +62,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-09_08_2019Assembly01" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-09_08_2019Assembly02" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/09/08/09_08_2019Assembly01/" class="article-date">
-  <time datetime="2019-09-08T12:22:38.324Z" itemprop="datePublished">2019-09-08</time>
+    <a href="/2019/09/08/09_08_2019Assembly02/" class="article-date">
+  <time datetime="2019-09-08T12:31:54.167Z" itemprop="datePublished">2019-09-08</time>
 </a>
     
   <div class="article-category">
@@ -80,7 +80,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/08/09_08_2019Assembly01/">汇编基础第三章</a>
+      <a class="article-title" href="/2019/09/08/09_08_2019Assembly02/">第四章数据传送，寻址与算术基础</a>
     </h1>
   
 
@@ -88,18 +88,18 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="简答题"><a href="#简答题" class="headerlink" title="简答题"></a>简答题</h3><p> <strong>1. 举例说明三种不同的指令助记符</strong><br> mov add    mul   不区分大小写</p>
-<p> <strong>2. 什么是调用规范，如何在汇编语言中声明并使用它</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.model flat,stdcall</span><br></pre></td></tr></table></figure>
+        <h3 id="课本内容注释"><a href="#课本内容注释" class="headerlink" title="课本内容注释"></a>课本内容注释</h3><h4 id="1-p85-NEG指令与OF位"><a href="#1-p85-NEG指令与OF位" class="headerlink" title="1.p85 NEG指令与OF位"></a>1.p85 NEG指令与OF位</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov al,+127  ;AL=0111 1111b</span><br><span class="line">neg al            ;AL=1000 0000b OF=0</span><br></pre></td></tr></table></figure>
+
+<p>neg指令实际执行的是用0减去目的操作数，所以在上面的情况中，最高有效位位1，进位CF也为1<br>neg指令的目的是将操作数的符号取反</p>
         
           <p class="article-more-link">
-            <a href="/2019/09/08/09_08_2019Assembly01/#more">阅读全文</a>
+            <a href="/2019/09/08/09_08_2019Assembly02/#more">阅读全文</a>
           </p>
         
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/08/09_08_2019Assembly01/" data-id="ck0ay6yh2000c6ov90dsyi8m0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/08/09_08_2019Assembly02/" data-id="ck0ayixm90001ycv9s04wiftj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Assembly/">Assembly</a></li></ul>
@@ -111,10 +111,10 @@
 
 
   
-    <article id="post-09_08_2019C++01" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-09_08_2019Linux03" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/09/08/09_08_2019C++01/" class="article-date">
-  <time datetime="2019-09-08T12:22:26.262Z" itemprop="datePublished">2019-09-08</time>
+    <a href="/2019/09/08/09_08_2019Linux03/" class="article-date">
+  <time datetime="2019-09-08T12:29:08.772Z" itemprop="datePublished">2019-09-08</time>
 </a>
     
   <div class="article-category">
@@ -129,7 +129,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/08/09_08_2019C++01/">C++ Primer const整理</a>
+      <a class="article-title" href="/2019/09/08/09_08_2019Linux03/">Linux进程基础</a>
     </h1>
   
 
@@ -137,20 +137,24 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="const限定符"><a href="#const限定符" class="headerlink" title="const限定符"></a>const限定符</h3><p>有时候我们需要定义这样一种变量，它的值不能被改变。例如，我们用这个变量表示缓冲区的大小。为了满足这一需求，我们可以使用<strong>const</strong>关键字对变量类型加以限定。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> BuffSize=<span class="number">512</span>    <span class="comment">//无法改变的缓冲区大小数值</span></span><br></pre></td></tr></table></figure>
+        <h2 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h2><ul>
+<li>程序和进程</li>
+<li>并发</li>
+<li>单道程序设计</li>
+<li>多道程序设计</li>
+<li>CPU和MMU(Memery Manage Unit)
         
           <p class="article-more-link">
-            <a href="/2019/09/08/09_08_2019C++01/#more">阅读全文</a>
+            <a href="/2019/09/08/09_08_2019Linux03/#more">阅读全文</a>
           </p>
         
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/08/09_08_2019C++01/" data-id="ck0ay6ygn00016ov9r3mez78e" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/08/09_08_2019Linux03/" data-id="ck0ayixnn0006ycv901lilyt1" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
 
     </footer>
   </div>
@@ -163,7 +167,7 @@
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -207,15 +211,23 @@
       <ul>
         
           <li>
+            <a href="/2019/09/08/09_08_2019Assembly02/">第四章数据传送，寻址与算术基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/08/09_08_2019Linux03/">Linux进程基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/08/09_08_2019Linux02/">Linux管道通信</a>
+          </li>
+        
+          <li>
             <a href="/2019/09/08/09_08_2019Assembly01/">汇编基础第三章</a>
           </li>
         
           <li>
             <a href="/2019/09/08/09_08_2019C++01/">C++ Primer const整理</a>
-          </li>
-        
-          <li>
-            <a href="/2019/09/08/09_08_2019Linux01/">Linux子进程创建与控制</a>
           </li>
         
       </ul>
