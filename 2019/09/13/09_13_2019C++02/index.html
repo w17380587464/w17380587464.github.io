@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>C++ Primer OOP | BenBoErBa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="概述 面向对象程序设计 的核心思想是数据抽象，继承和动态绑定。通过使用数据抽象，我们可以将类的接口与实现分离；使用继承，可以定义相似的类型并对其相似关系建模；使用动态绑定，可以在一定程度上忽略相似类型的区别，而以统一的方式使用它们的对象。">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ Primer OOP">
+<meta property="og:url" content="http://yoursite.com/2019/09/13/09_13_2019C++02/index.html">
+<meta property="og:site_name" content="BenBoErBa">
+<meta property="og:description" content="概述 面向对象程序设计 的核心思想是数据抽象，继承和动态绑定。通过使用数据抽象，我们可以将类的接口与实现分离；使用继承，可以定义相似的类型并对其相似关系建模；使用动态绑定，可以在一定程度上忽略相似类型的区别，而以统一的方式使用它们的对象。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-09-13T02:52:45.845Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++ Primer OOP">
+<meta name="twitter:description" content="概述 面向对象程序设计 的核心思想是数据抽象，继承和动态绑定。通过使用数据抽象，我们可以将类的接口与实现分离；使用继承，可以定义相似的类型并对其相似关系建模；使用动态绑定，可以在一定程度上忽略相似类型的区别，而以统一的方式使用它们的对象。">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">BenBoErBa</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-09_13_2019C++02" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/13/09_13_2019C++02/" class="article-date">
+  <time datetime="2019-09-13T02:48:45.520Z" itemprop="datePublished">2019-09-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/CS/">CS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C++ Primer OOP
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ol>
+<li><p><strong>面向对象程序设计</strong> 的核心思想是数据抽象，继承和动态绑定。通过使用数据抽象，我们可以将类的接口与实现分离；使用继承，可以定义相似的类型并对其相似关系建模；使用动态绑定，可以在一定程度上忽略相似类型的区别，而以统一的方式使用它们的对象。</p>
+<a id="more"></a>
+</li>
+<li><p>C++语言中，基类将类型相关的函数与派生类不做改变直接继承的函数区别对待。对于某些函数，基类希望它的派生类各自定义适合自身的版本，此时基类就将这些函数声明为<strong>虚函数</strong>。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Quote</span> &#123;</span>  <span class="comment">//原价出售的书籍</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="comment">//虚函数 基类需要其定义自己的版本;</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="keyword">size_t</span> n)</span><span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> n * price; &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>派生类必须通过使用<strong>派生类列表</strong>指名它是从哪个基类继承而来，基类前面可以有<strong>访问说明符</strong>。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span> :</span><span class="keyword">public</span> Quote &#123;</span><br><span class="line">	<span class="function"><span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="keyword">size_t</span> n)</span> <span class="keyword">const</span> override</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过使用<strong>动态绑定</strong>，我们能用同一段代码分别处理Quote和Bulk_quote的对象。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> Bulk_quote::print_total(ostream &amp;os,</span><br><span class="line">							<span class="keyword">const</span> Quote &amp;item, <span class="keyword">size_t</span> n) &#123;</span><br><span class="line">	<span class="comment">//根据传入形参item的对象类型动态调用Quote::net_price()或Bulk_quote::net_price();</span></span><br><span class="line">	<span class="keyword">double</span> ret = item.net_price(n);</span><br><span class="line">	os &lt;&lt; <span class="string">"ISBN:"</span> &lt;&lt; item.isbn() &lt;&lt; <span class="string">" total due: "</span> &lt;&lt; ret &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">return</span> ret;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>由于上述函数运行版本由实参决定，即在运行时选择函数版本，所以动态绑定有时又被称为<strong>运行时绑定</strong>。</p>
+<h3 id="定义基类与派生类"><a href="#定义基类与派生类" class="headerlink" title="定义基类与派生类"></a>定义基类与派生类</h3><ol>
+<li><p><strong>Quote</strong>类定义</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Quote</span> &#123;</span>  <span class="comment">//原价出售的书籍</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">	Quote() = <span class="keyword">default</span>;</span><br><span class="line">	Quote(<span class="keyword">const</span> <span class="built_in">string</span> &amp;book, <span class="keyword">double</span> sales_price):</span><br><span class="line">		bookNo(book), price(sales_price) &#123;&#125;;</span><br><span class="line">	<span class="function"><span class="built_in">string</span> <span class="title">isbn</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> bookNo; &#125;;</span><br><span class="line">	<span class="comment">//虚函数 基类需要其定义自己的版本;</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="keyword">size_t</span> n)</span><span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> n * price; &#125;;</span><br><span class="line">	<span class="comment">//对析构函数动态绑定</span></span><br><span class="line">	<span class="keyword">virtual</span> ~Quote() = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="built_in">string</span> bookNo;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="keyword">double</span> price = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Bulk_quote</strong>类定义</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//公有派生，基类的公有成员也是派生类接口的组成部分</span></span><br><span class="line"><span class="comment">//同时，能将共有派生类型绑定到基类的引用或指针上.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span> :</span><span class="keyword">public</span> Quote &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">	Bulk_quote() = <span class="keyword">default</span>;</span><br><span class="line">	Bulk_quote(<span class="built_in">string</span> &amp;, <span class="keyword">double</span>, <span class="keyword">size_t</span>, <span class="keyword">double</span>);</span><br><span class="line">	<span class="function"><span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="keyword">size_t</span> n)</span> <span class="keyword">const</span> override</span>;</span><br><span class="line">	<span class="comment">//因为参数二是基类的引用，所以可以使用子类和基类 的对象调用该函数。</span></span><br><span class="line">	<span class="function"><span class="keyword">double</span> <span class="title">print_total</span><span class="params">(ostream &amp;os, <span class="keyword">const</span> Quote&amp;item, <span class="keyword">size_t</span> n)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="keyword">size_t</span> min_qty = <span class="number">0</span>;	  <span class="comment">//折扣政策所需的最小数目</span></span><br><span class="line">	<span class="keyword">double</span> discount = <span class="number">0</span>;  <span class="comment">//折扣</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>派生类对象包含多个组成部分</strong>：一个含有派生类自己定义的(非静态)成员的子对象，以及一个该派生类所继承的基类的子对象。如果有多个基类，那么这样的子对象也有多个。</p>
+<p> 同时因为派生类中包含有基类对应的部分，所以我们可以将派生类对象当成基类对象使用。即<strong>派生类可向基类转换</strong>，跟其他类型一样，编译器会隐式的执行派生类到基类的转换。</p>
+</li>
+<li><p>派生类对象初始化过程中，会先调用基类的构造函数，基类初始化完成后，按照声明的顺序依次初始化派生类成员。</p>
+</li>
+<li><p>如果基类定义了<strong>静态成员</strong>，那么无论该基类拥有多少派生类，对于每个静态成员来说只存在唯一实例。同时，静态成员遵循通用的访问控制规则，如果基类中的静态成员为private，则派生类无权访问。</p>
+</li>
+<li><p>派生类声明中不可包含派生列表。</p>
+</li>
+</ol>
+<p><strong>声明语句的目的</strong>是令程序知晓某个名字的存在以及该名字表示一个什么样的实体。派生列表以及定义有关的其他细节必须与类的主体一起出现。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span> :</span> <span class="keyword">public</span> Quote;  <span class="comment">//错误</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span> :</span> Quote; <span class="comment">//正确的声明方式</span></span><br></pre></td></tr></table></figure>
+
+<p>7.每个类都会继承直接基类的所有成员，以此类推，最终的派生类会包含其所有基类的子对象。<br>8.<strong>final</strong>防止继承的发生</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//NoDerived 不可作为基类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NoDerived</span> <span class="title">final</span>&#123;</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="类型转换与继承"><a href="#类型转换与继承" class="headerlink" title="类型转换与继承"></a>类型转换与继承</h3><ol>
+<li>通常情况下，我们想把引用或指针绑定到一个对象上，则引用与指针的类型应与对象类型一致，或对象类型含有一个可接受的const类型转换规则。存在继承关系的类是一个例外：<strong>我们可以将基类的引用或指针绑定到派生类对象上</strong>。即，我们可以用Qoute&amp;指向一个Bulk_quote对象，也可以把Bulk_quote的对象地址赋值给一个Qoute*。</li>
+</ol>
+<p>2.使用存在继承关系的类型时，要区分它们的<strong>静态类型</strong>和<strong>动态类型</strong>。表达式的静态类型在编译时总是已知的，而动态类型要知道运行时才可知。例子可参见上文概述4。若表达式不是引用或指针，则它的动态类型与静态类型一致。</p>
+<p>3.不存在基类向派生类的转换。因为基类可能是派生类对象的一部分，此时不可转换；也可能不是，此时可转换。所以编译器并不允许基类向派生类的转换，如果我们肯定某个转换是安全的，可以使用<strong>static_cast</strong>强制覆盖掉编译器的检查工作。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Bulk_quote bulk;</span><br><span class="line">Quote *item = &amp;bulk;		<span class="comment">// 此时item的动态类型是Bulk_quote</span></span><br><span class="line">Bulk_quote *bulkp = item;	<span class="comment">//错误</span></span><br></pre></td></tr></table></figure>
+
+<p>3.派生类与基类间的类型转换只对于指针或引用类型有效。派生类类型与基类类型之间不存在这样的转换。当我们初始化或赋值一个类类型对象时，实际上是在调用某个函数。初始化时，调用构造函数，赋值时，调用赋值运算符。这些成员通常都包含一个参数，参数类型是类类型const版本的引用。所在在派生类向基类转换时允许我们向基类成员传递一个派生类的引用，此时，只属于派生类的数据会被”切掉”。</p>
+<h3 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h3><p>1.对虚函数的调用可能在运行时才被解析，区别于其他函数，所以我们必须要对每个虚函数提供定义。动态绑定只有在我们通过指针或引用调用虚函数时才会发生。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//根据动态类型调用相应的虚函数</span></span><br><span class="line"><span class="function">Quote <span class="title">base</span><span class="params">(<span class="string">"0-201-82470-1"</span>,<span class="number">50</span>)</span></span>;</span><br><span class="line">print_total(<span class="built_in">cout</span>,base,<span class="number">10</span>);       <span class="comment">//动态类型 为Quote  	调用Quote::net_price</span></span><br><span class="line"><span class="function">Bulk_qoute <span class="title">derived</span><span class="params">(<span class="string">"0-202-82480-1"</span>,<span class="number">50</span>,<span class="number">5</span>,<span class="number">0.8</span>)</span></span>;</span><br><span class="line">print_total(<span class="built_in">cout</span>,derived,<span class="number">10</span>); 	<span class="comment">//动态类型为Bulk_quote 调用Bulk_quote::net_price</span></span><br></pre></td></tr></table></figure>
+
+<p>2.派生类的某函数若覆盖了继承而来的虚函数，则派生类的形参类型必须与被覆盖的基类函数形参类型一致，否则，编译器将会视型定义的函数与基类函数相互独立。这时，派生类函数并没有覆盖基类函数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">B</span>&#123;</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">f1</span><span class="params">(<span class="keyword">int</span>)</span> <span class="keyword">const</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">f2</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">f3</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">C</span>:</span>B&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">f1</span><span class="params">(<span class="keyword">int</span>)</span> <span class="keyword">const</span> override</span>;<span class="comment">//基类函数被覆盖。</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">f2</span><span class="params">(<span class="keyword">int</span>)</span> override</span>;  	<span class="comment">//错误，未在基类找到f2(int)函数定义。</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>3.将基类函数指定为<strong>final</strong>,其派生类任何尝试覆盖该函数都将发生错误。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">D</span>:</span>B&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">f1</span><span class="params">(<span class="keyword">int</span>)</span> <span class="keyword">const</span> final</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">E</span>:</span>D&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">f1</span><span class="params">(<span class="keyword">int</span>)</span> <span class="keyword">const</span></span>;  <span class="comment">//错误，D中f1(int) 已被声明为final</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>4.虚函数可以拥有默认实参。函数使用的默认实参由调用函数的对象静态类型决定(在之前的例子中,如果net_price存在默认实参，则net_price使用基类中的默认实参，因为item静态类型为Quote)。派生类与基类定义的实参最好一致。</p>
+<p>5.回避虚函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//强行调用基类版本而无视baseP动态类型</span></span><br><span class="line"><span class="keyword">double</span> undis = baseP-&gt;Qoute::net_price(<span class="number">42</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="抽象类型"><a href="#抽象类型" class="headerlink" title="抽象类型"></a>抽象类型</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/09/13/09_13_2019C++02/" data-id="ck0hj1eyz000adwv9lpasabj7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/09/08/09_08_2019Assembly02/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第四章数据传送，寻址与算术基础</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CS/">CS</a><span class="category-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/13/09_13_2019C++02/">C++ Primer OOP</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/08/09_08_2019Assembly02/">第四章数据传送，寻址与算术基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/08/09_08_2019Linux03/">Linux进程基础</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/08/09_08_2019Linux02/">Linux管道通信</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/08/09_08_2019Assembly01/">汇编基础第三章</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 W<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
