@@ -7,18 +7,18 @@
   
   <title>STL Day1 | BenBoErBa</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="���ר����������ѧϰSTL���������������� typename traits���">
-<meta name="keywords" content="C++,STL">
+  <meta name="description" content="这个专栏用于整理学习STL过程中碰到的问题 typename traits编程">
+<meta name="keywords" content="STL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="STL Day1">
 <meta property="og:url" content="http://yoursite.com/2019/09/18/09_18_2019STL01/index.html">
 <meta property="og:site_name" content="BenBoErBa">
-<meta property="og:description" content="���ר����������ѧϰSTL���������������� typename traits���">
+<meta property="og:description" content="这个专栏用于整理学习STL过程中碰到的问题 typename traits编程">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-09-18T04:34:07.470Z">
+<meta property="og:updated_time" content="2019-09-18T04:39:25.423Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="STL Day1">
-<meta name="twitter:description" content="���ר����������ѧϰSTL���������������� typename traits���">
+<meta name="twitter:description" content="这个专栏用于整理学习STL过程中碰到的问题 typename traits编程">
   
   
     <link rel="icon" href="/favicon.png">
@@ -64,11 +64,11 @@
         <section id="main"><article id="post-09_18_2019STL01" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/09/18/09_18_2019STL01/" class="article-date">
-  <time datetime="2019-09-18T04:30:26.440Z" itemprop="datePublished">2019-09-18</time>
+  <time datetime="2019-09-18T04:39:25.423Z" itemprop="datePublished">2019-09-18</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/����/">����</a>
+    <a class="article-category-link" href="/categories/工具/">工具</a>
   </div>
 
   </div>
@@ -87,66 +87,67 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>���ר����������ѧϰSTL����������������</p>
-<p><strong>typename</strong><br> <strong>traits���</strong></p>
+        <p>这个专栏用于整理学习STL过程中碰到的问题</p>
+<p><strong>typename</strong><br> <strong>traits编程</strong></p>
 <a id="more"></a>
-<h3 id="typename"><a href="#typename" class="headerlink" title="typename"></a>typename</h3><p>STL�е������� <strong>typename …..</strong>�� <strong>typedef typenmae ….</strong> ���÷�������һ��ʼ��Ĳ�֪�����ڸ�Щʲô���⡣</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> <span class="comment">//��ȥ�˲����뺯���壬����ֵΪʲôҪ���typename?</span></span><br><span class="line"><span class="keyword">typename</span> iterator_traits&lt;RandomIter&gt;::difference_type</span><br><span class="line">distance_dispatch(...)&#123;....&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//���ǿ���֪�������ڶ������ͱ��������ǵ���ΪʲôҪ���typename??</span></span><br><span class="line"> <span class="keyword">typedef</span> <span class="keyword">typename</span> value_traits_type::key_type    key_type;</span><br></pre></td></tr></table></figure>
 
-<p>ֱ������ƪ���еĲ��ͣ�������������һ��….</p>
-<p>������������������е�����ʱ������ʹ�����������������<strong>ClassName::name</strong>���ҵ���ͨ���������֣���̬���ݳ�Ա����̬��Ա������Ƕ�����͡�</p>
+<h3 id="typename"><a href="#typename" class="headerlink" title="typename"></a>typename</h3><p>STL中到处都是 <strong>typename …..</strong>； <strong>typedef typenmae ….</strong> 的用法，但是一开始真的不知道是在搞些什么玩意。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> <span class="comment">//略去了参数与函数体，返回值为什么要搞个typename?</span></span><br><span class="line"><span class="keyword">typename</span> iterator_traits&lt;RandomIter&gt;::difference_type</span><br><span class="line">distance_dispatch(...)&#123;....&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//我们可以知道这是在定义类型别名，但是到底为什么要搞个typename??</span></span><br><span class="line"> <span class="keyword">typedef</span> <span class="keyword">typename</span> value_traits_type::key_type    key_type;</span><br></pre></td></tr></table></figure>
+
+<p>直到看了篇大佬的博客，现在正好整理一下….</p>
+<p>我们在类外访问类内中的名称时，可以使用类作用域操作符，<strong>ClassName::name</strong>。且调用通常存在三种：静态数据成员，静态成员函数，嵌套类型。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MyClass</span>&#123;</span></span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">int</span> a;</span><br><span class="line">	<span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">b</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="keyword">typedef</span> itn c;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<p>���ǿ��ܻᶨ��������һ��ģ��</p>
+<p>我们可能会定义这样的一种模板</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">fun</span>()&#123;</span></span><br><span class="line">	T::iterator *iter;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>���ǻ����Ȼ����Ϊ�����ڶ���һ��iter��ָ�룬ָ�����������iterator,��������</p>
+<p>我们会很自然的认为这是在定义一个iter的指针，指向类作用域的iterator,像这样。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Ttype</span>&#123;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">iterator</span>&#123;</span><span class="comment">/*...*/</span>&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<p>���ǣ������������ǵ�<strong>ClassName::name</strong>���ÿ��ܻ��������������</p>
+<p>但是，如上述，我们的<strong>ClassName::name</strong>调用可能会有这样的情况。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Ttype</span>&#123;</span></span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">int</span> iterator;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<p>��ô��ģ���еĶ���� <strong>T::iterator *iter</strong>�ͳ���һ���˷�����ʽ……..</p>
-<p>�����������������û�а취���֣����ԣ�C++��׼������<strong>typename</strong>��</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">fun</span>()&#123;</span></span><br><span class="line">	<span class="keyword">typename</span> T::iterator *iter;  <span class="comment">//ָ������Ķ���(T::iterator)��һ������</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么类模板中的定义的 <strong>T::iterator *iter</strong>就成了一个乘法表达式……..</p>
+<p>由于这两种情况我们没有办法区分，所以，C++标准引入了<strong>typename</strong>。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">fun</span>()&#123;</span></span><br><span class="line">	<span class="keyword">typename</span> T::iterator *iter;  <span class="comment">//指定后面的对象(T::iterator)是一个类型</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>�����Ͳ���Ҫ�ȵ�ʵ������ʱ��ſ��������������</p>
-<p><strong>�μ�</strong></p>
+<p>这样就不需要等到实例化的时候才可以区分两种情况</p>
+<p><strong>参见</strong></p>
 <ol>
 <li><a href="http://feihu.me/blog/2014/the-origin-and-usage-of-typename/" target="_blank" rel="noopener">http://feihu.me/blog/2014/the-origin-and-usage-of-typename/</a></li>
 </ol>
-<h3 id="traits���"><a href="#traits���" class="headerlink" title="traits���"></a>traits���</h3><p>�������Զ��������ʱ�����ܻ��õ���ָ���������(value type)�����ǿ���ʹ�����·�����ȡ���ͣ���������Ϊ����ֵ��</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">struct</span> <span class="title">MyIter</span>&#123;</span></span><br><span class="line">	<span class="keyword">typedef</span> T value_type;  <span class="comment">//��Ƕ�ͱ�����</span></span><br><span class="line">	<span class="comment">//....</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typename</span> MyIter::value_type </span><br><span class="line">func(MyIter poi)&#123;</span><br><span class="line">	<span class="keyword">return</span> *poi;   <span class="comment">//��������Ϊ��������ָ����</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="traits编程"><a href="#traits编程" class="headerlink" title="traits编程"></a>traits编程</h3><p>当我们自定义迭代器时，可能会用到所指对象的类型(value type)。我们可以使用如下方法获取类型，并将其作为返回值。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">struct</span> <span class="title">MyIter</span>&#123;</span></span><br><span class="line">	<span class="keyword">typedef</span> T value_type;  <span class="comment">//内嵌型别声明</span></span><br><span class="line">	<span class="comment">//....</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typename</span> MyIter::value_type</span><br><span class="line">func(MyIter poi)&#123;</span><br><span class="line">	<span class="keyword">return</span> *poi;   <span class="comment">//返回类型为迭代器所指类型</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>ע�ⷵ�������б���Ҫ��<strong>typename</strong>��ָ���������һ�����͡�</p>
-<p>������Ƕ����˶��ֵ������������о���value_type����Ƕ�ͱ������������������Ϳɷ���<br>Ϊ</p>
+<p>注意返回类型中必须要加<strong>typename</strong>，指名后面的是一个类型。</p>
+<p>如果我们定义了多种迭代器，且其中均有value_type的内嵌型别声明，则函数返回类型可泛化<br>为</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">I</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">typename</span> <span class="title">I</span>:</span>:value</span><br><span class="line">func(I poi)&#123;</span><br><span class="line">	<span class="keyword">return</span> *poi;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>ͬʱ�����ǿ���ר�Ŷ���һ��class template���ڱ�����ֵ����������ԡ�</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">I</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">struct</span> <span class="title">iterator_traits</span>&#123;</span> <span class="comment">//traits ������</span></span><br><span class="line">	<span class="keyword">typedef</span> <span class="keyword">typename</span>  I::value_type value_type;</span><br><span class="line">	<span class="comment">//��Ȼ�����������е����ԣ����ǽ���value_type����</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同时，我们可以专门定义一个class template用于保存多种迭代器的特性。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">I</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">struct</span> <span class="title">iterator_traits</span>&#123;</span> <span class="comment">//traits 即特性</span></span><br><span class="line">	<span class="keyword">typedef</span> <span class="keyword">typename</span>  I::value_type value_type;</span><br><span class="line">	<span class="comment">//当然还有其它共有的特性，我们仅用value_type举例</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>���ڣ����ǵ�func�����ɼ������ġ��ú������ܲ�ͬ�ĵ���������I����������Ϊ������I�ػ���iterator_traits���е�value_type,��������I��ָ�Ķ���</p>
+<p>现在，我们的func函数可继续更改。该函数接受不同的迭代器类型I，返回类型为迭代器I特化的iterator_traits类中的value_type,即迭代器I所指的对象。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">I</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">typename</span> <span class="title">iterator_traits</span>&lt;I&gt;:</span>:value_type</span><br><span class="line">func(I poi)&#123;</span><br><span class="line">	<span class="keyword">return</span> *poi;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>����һ��iterator_traits��ʲô�ô���?���ǽ��ſ�</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">struct</span> <span class="title">iterator_traits</span>&lt;T*&gt;&#123;</span></span><br><span class="line">	<span class="keyword">typedef</span> T value_type;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>加了一层iterator_traits有什么好处呢?我们接着看</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">struct</span> <span class="title">iterator_traits</span>&lt;T*&gt;&#123;</span></span><br><span class="line">	<span class="keyword">typedef</span> T value_type;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>���template�������iterator_traits��ģ���ƫ�ػ��汾�����ڴ�����������ԭ��ָ����������Ϊ����û�а취Ϊԭ��ָ������һ��value_type��Ƕ���ͣ���������ֻ������һ���ཫ����ȡ������</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *p;</span><br><span class="line"><span class="keyword">int</span> i=func(p);</span><br><span class="line"><span class="comment">//int*�Ĳ���������ƫ�ػ���iterator_traits�汾,T��value_typeΪint��</span></span><br></pre></td></tr></table></figure>
+<p>这个template是上面的iterator_traits类模板的偏特化版本，用于处理迭代器是原生指针的情况。因为我们没有办法为原生指针添加一个value_type内嵌类型，所以我们只能用另一个类将其提取出来。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *p;</span><br><span class="line"><span class="keyword">int</span> i=func(p);</span><br><span class="line"><span class="comment">//int*的参数被传入偏特化的iterator_traits版本,T与value_type为int。</span></span><br></pre></td></tr></table></figure>
 
-<p><strong>�μ�</strong></p>
+<p><strong>参见</strong></p>
 <ol>
 <li><a href="https://www.cnblogs.com/kanego/archive/2012/08/15/2639761.html" target="_blank" rel="noopener">https://www.cnblogs.com/kanego/archive/2012/08/15/2639761.html</a></li>
-<li>STLԴ������</li>
+<li>STL源码剖析</li>
 </ol>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/18/09_18_2019STL01/" data-id="ck0orvi4u000bfov9b2o25xr9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/18/09_18_2019STL01/" data-id="ck0os1pei000rokv99m81hyy7" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/STL/">STL</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/STL/">STL</a></li></ul>
 
     </footer>
   </div>
@@ -173,7 +174,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/系统/">系统</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/编程语言/">编程语言</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/语言/">语言</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/����/">����</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统/">系统</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/编程语言/">编程语言</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/语言/">语言</a><span class="category-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -183,7 +184,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/">STL</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/">STL</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
