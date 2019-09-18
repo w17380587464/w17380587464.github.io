@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="BenBoErBa">
 <meta property="og:description" content="这个专栏用于整理学习STL过程中碰到的问题 typename traits编程">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-09-18T04:39:25.423Z">
+<meta property="og:updated_time" content="2019-09-18T06:09:23.701Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="STL Day1">
 <meta name="twitter:description" content="这个专栏用于整理学习STL过程中碰到的问题 typename traits编程">
@@ -64,7 +64,7 @@
         <section id="main"><article id="post-09_18_2019STL01" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/09/18/09_18_2019STL01/" class="article-date">
-  <time datetime="2019-09-18T04:39:25.423Z" itemprop="datePublished">2019-09-18</time>
+  <time datetime="2019-09-18T06:09:23.701Z" itemprop="datePublished">2019-09-18</time>
 </a>
     
   <div class="article-category">
@@ -140,11 +140,36 @@
 <li><a href="https://www.cnblogs.com/kanego/archive/2012/08/15/2639761.html" target="_blank" rel="noopener">https://www.cnblogs.com/kanego/archive/2012/08/15/2639761.html</a></li>
 <li>STL源码剖析</li>
 </ol>
+<h3 id="std-remove-reference"><a href="#std-remove-reference" class="headerlink" title="std::remove_reference"></a>std::remove_reference</h3><h3 id="std-move"><a href="#std-move" class="headerlink" title="std::move"></a>std::move</h3><p>这俩玩意都定义于头文件<strong>&lt;type_traits&gt;</strong></p>
+<p>先看看remove_reference，这玩意定义的还挺简单。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//C++11起 声明如下</span></span><br><span class="line"><span class="keyword">template</span>&lt; <span class="class"><span class="keyword">class</span> <span class="title">T</span> &gt;</span></span><br><span class="line"><span class="class"><span class="title">struct</span> <span class="title">remove_reference</span>;</span></span><br><span class="line"><span class="comment">//实现</span></span><br><span class="line"><span class="comment">//后两个为偏特化版本，分别接受引用类型与右值引用类型，但是无论接受什么类型</span></span><br><span class="line"><span class="comment">//T都是非引用的。</span></span><br><span class="line"><span class="keyword">template</span>&lt; <span class="class"><span class="keyword">class</span> <span class="title">T</span> &gt; <span class="title">struct</span> <span class="title">remove_reference</span>      &#123;</span><span class="keyword">typedef</span> T type;&#125;;</span><br><span class="line"><span class="keyword">template</span>&lt; <span class="class"><span class="keyword">class</span> <span class="title">T</span> &gt; <span class="title">struct</span> <span class="title">remove_reference</span>&lt;T&amp;&gt;  &#123;</span><span class="keyword">typedef</span> T type;&#125;;</span><br><span class="line"><span class="keyword">template</span>&lt; <span class="class"><span class="keyword">class</span> <span class="title">T</span> &gt; <span class="title">struct</span> <span class="title">remove_reference</span>&lt;T&amp;&amp;&gt; &#123;</span><span class="keyword">typedef</span> T type;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>测试</strong><br>这里要注意std::is_same同样是一个模板，后面加()表示创建一个临时对象，这种用法在traits中非常常见。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;type_traits&gt;</span></span></span><br><span class="line"><span class="comment">//#include "Iterator.h"</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T1</span>, <span class="title">class</span> <span class="title">T2</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">print_is_same</span>() &#123;</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; is_same&lt;T1, T2&gt;() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	print_is_same&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;();    <span class="comment">//1</span></span><br><span class="line">	print_is_same&lt;<span class="keyword">int</span>, <span class="keyword">int</span> &amp;&gt;();  <span class="comment">//0</span></span><br><span class="line">	print_is_same&lt;<span class="keyword">int</span>, <span class="keyword">int</span> &amp;&amp;&gt;(); <span class="comment">//0</span></span><br><span class="line"></span><br><span class="line">	print_is_same&lt;<span class="keyword">int</span>, <span class="built_in">std</span>::remove_reference&lt;<span class="keyword">int</span>&gt;::type&gt;();     <span class="comment">//1</span></span><br><span class="line">	print_is_same&lt;<span class="keyword">int</span>, <span class="built_in">std</span>::remove_reference&lt;<span class="keyword">int</span> &amp;&gt;::type&gt;();   <span class="comment">//1</span></span><br><span class="line">	print_is_same&lt;<span class="keyword">int</span>, <span class="built_in">std</span>::remove_reference&lt;<span class="keyword">int</span> &amp;&amp;&gt;::type&gt;();  <span class="comment">//1</span></span><br><span class="line">	system(<span class="string">"pause"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过结果我们可以看到remove_reference移除了引用。</p>
+<p>接下来是move，这个函数可以接受一个左值并将用右值引用对其绑定(通常情况下右值引用不可以绑定到变量,也可以说左值上)。我们来看看它的实现。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">typename</span> <span class="title">std</span>:</span>:remove_reference&lt;T&gt;::<span class="function">type&amp;&amp; <span class="title">move</span><span class="params">(T&amp;&amp;arg)</span><span class="keyword">noexcept</span> </span>&#123;	</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;<span class="keyword">typename</span> <span class="built_in">std</span>::remove_reference&lt;T&gt;::type&amp;&amp;&gt;(arg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>函数返回一个(移除引用的类型的)右值引用，参数后加<strong>noexcept</strong>表示该函数不抛出异常(为什么这么搞我反正在书上见过)。参数arg是一个右值引用，我们向其传递左值实参的时候，会发生什么呢？</p>
+<p><strong>引用折叠</strong><br>    我们之前有说过，不允许将右值引用绑定到左值上，但是有两个例外。</p>
+<ol>
+<li>当我们将左值传递给函数的右值引用参数，且！，右值引用指向模板类型参数时，编译器推断模板参数为实参的左值引用类型。我们假定实参为int M，则模板参数为M&amp;，即T的类型为int&amp;。 </li>
+<li>如果我们创建了一个引用的引用，则这些引用会“折叠”，折叠规则为：<br> X&amp; &amp;和 X&amp; &amp;&amp; 和X&amp;&amp; &amp;折叠为 X&amp;。<br> X&amp;&amp; &amp;&amp;折叠为 X&amp;&amp;。</li>
+</ol>
+<p>好了我们现在知道T是 int&amp;（1中我们假定了函数实参是 int M）,所以形参T&amp;&amp;arg就成了int&amp; &amp;&amp;arg,折叠成int&amp; arg，int型的左值引用，问题解决。</p>
+<p>要注意折叠引用只能应用于间接创建的引用的引用，如类型别名或模板参数。</p>
+<p><strong>参见</strong></p>
+<ol>
+<li>C++Primer  左值，右值，右值引用，move</li>
+<li><a href="https://zh.cppreference.com/w/cpp/types/remove_reference" target="_blank" rel="noopener">https://zh.cppreference.com/w/cpp/types/remove_reference</a></li>
+<li><a href="https://zh.cppreference.com/w/cpp/utility/move" target="_blank" rel="noopener">https://zh.cppreference.com/w/cpp/utility/move</a></li>
+</ol>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/18/09_18_2019STL01/" data-id="ck0os3w4q000re8v9cu89noij" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/18/09_18_2019STL01/" data-id="ck0ov9g9d000ay0v9p2br3wa7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/STL/">STL</a></li></ul>
@@ -155,19 +180,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/09/18/09_08_2019C++01/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          C++ Primer const整理
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/09/16/09_16_2019C++03/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/09/18/09_08_2019C++01/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">C++ Primer 拷贝控制</div>
+      <div class="article-nav-title">C++ Primer const整理</div>
     </a>
   
 </nav>
@@ -216,11 +232,11 @@
       <ul>
         
           <li>
-            <a href="/2019/09/18/09_08_2019C++01/">C++ Primer const整理</a>
+            <a href="/2019/09/18/09_18_2019STL01/">STL Day1</a>
           </li>
         
           <li>
-            <a href="/2019/09/18/09_18_2019STL01/">STL Day1</a>
+            <a href="/2019/09/18/09_08_2019C++01/">C++ Primer const整理</a>
           </li>
         
           <li>
