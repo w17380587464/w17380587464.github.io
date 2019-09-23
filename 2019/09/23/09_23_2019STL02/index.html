@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>BenBoErBa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="titile: STL Day2categorise:  工具tags: STL  trivial，non-trivial 函数，POD类型enable_ifunsigned charstatic_cast &amp;amp;&amp;amp; dynamic_cast">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BenBoErBa">
+<meta property="og:url" content="http://yoursite.com/2019/09/23/09_23_2019STL02/index.html">
+<meta property="og:site_name" content="BenBoErBa">
+<meta property="og:description" content="titile: STL Day2categorise:  工具tags: STL  trivial，non-trivial 函数，POD类型enable_ifunsigned charstatic_cast &amp;amp;&amp;amp; dynamic_cast">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190920105334968.jpg">
+<meta property="og:updated_time" content="2019-09-23T11:44:24.431Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BenBoErBa">
+<meta name="twitter:description" content="titile: STL Day2categorise:  工具tags: STL  trivial，non-trivial 函数，POD类型enable_ifunsigned charstatic_cast &amp;amp;&amp;amp; dynamic_cast">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190920105334968.jpg">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">BenBoErBa</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-09_23_2019STL02" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/23/09_23_2019STL02/" class="article-date">
+  <time datetime="2019-09-23T11:44:24.431Z" itemprop="datePublished">2019-09-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>titile: STL Day2<br>categorise:</p>
+<ul>
+<li>工具<br>tags:</li>
+<li>STL</li>
+</ul>
+<p><strong>trivial，non-trivial 函数，POD类型</strong><br><strong>enable_if</strong><br><strong>unsigned char</strong><br><strong>static_cast &amp;&amp; dynamic_cast</strong></p>
+<a id="more"></a>
+<h3 id="trivial，non-trivial-函数，POD类型"><a href="#trivial，non-trivial-函数，POD类型" class="headerlink" title="trivial，non-trivial 函数，POD类型"></a>trivial，non-trivial 函数，POD类型</h3><ol>
+<li>trivil，即不重要的，在以下四类函数中区分。</li>
+</ol>
+<ul>
+<li>构造函数 <strong>ctor</strong></li>
+<li>拷贝构造函数 <strong>copy</strong></li>
+<li>拷贝赋值运算符(赋值函数) <strong>assignment</strong></li>
+<li>析构函数    <strong>dtor</strong></li>
+</ul>
+<p>这四种函数只要被显示<strong>声明</strong>(定义的话当然更是了)，则为non-trivial类型。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> &#123;</span> A();   &#125;;	<span class="comment">//声明</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> &#123;</span> B()&#123;&#125;  &#125;; <span class="comment">//定义</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span> &#123;</span>        &#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="comment">//构造函数是否为trivial类型</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; is_trivially_constructible&lt;A&gt;::value &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//0</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; is_trivially_constructible&lt;B&gt;::value &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//0</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; is_trivially_constructible&lt;C&gt;::value &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//1</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>Plain old data structure</strong>,即<strong>POD</strong>，为C++定义的一类数据结构，其经过二进制拷贝后数据仍保持不变的类型。POD类型包括<strong>标量类型</strong>，<strong>POD类类型</strong>，<strong>cv-限定类型</strong>，还有以其为基类的数组类型。</li>
+</ol>
+<ul>
+<li><strong>标量类型(Scalar type)</strong>：相对于复合类型,标量类型只能有一个值。C++语言中,int,char,enum,double,loob等均可归类为标量类型。</li>
+<li><strong>POD类类型</strong>:可以从两方面来归类该类型。<strong>(1)</strong> 构造函数，拷贝/移动构造函数，拷贝/移动赋值运算符，析构函数均为平凡的(non-trivial)且不包含虚函数，虚基类的类型即为POD类型。 <strong>(2)</strong> POD类类型是不具有以下成员的类型：指针到成员类型的非静态数据成员，非POD类类型的非静态数据成员，应用类型的非静态数据成员，用户定义的拷贝，赋值，析构操作。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> &#123;</span> A();   &#125;;	<span class="comment">//声明</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> &#123;</span> B()&#123;&#125;  &#125;; <span class="comment">//定义</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span> &#123;</span>        &#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> &#123;</span> ~D();  &#125;;			<span class="comment">//声明析构函数</span></span><br><span class="line"><span class="keyword">int</span> i= <span class="number">1</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">E</span> &#123;</span> <span class="keyword">static</span> <span class="keyword">int</span> i; &#125;;	<span class="comment">//声明静态变量</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="comment">//类类型是否为trivial类型</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; is_trivial&lt;A&gt;::value &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//0</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; is_trivial&lt;B&gt;::value &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//0</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; is_trivial&lt;C&gt;::value &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//1</span></span><br><span class="line">	<span class="comment">//类类型是否为POD</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; is_pod&lt;A&gt;::value &lt;&lt; <span class="built_in">endl</span>;	 <span class="comment">//0</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; is_pod&lt;B&gt;::value &lt;&lt; <span class="built_in">endl</span>;	 <span class="comment">//0</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; is_pod&lt;C&gt;::value &lt;&lt; <span class="built_in">endl</span>;	 <span class="comment">//1</span></span><br><span class="line">	<span class="comment">//我们可以看到这俩函数其实差不多</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"--------------------"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; is_pod&lt;D&gt;::value &lt;&lt; <span class="built_in">endl</span>;	 <span class="comment">//0</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; is_pod&lt;E&gt;::value &lt;&lt; <span class="built_in">endl</span>;	 <span class="comment">//1</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//其他就不测了......</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>参见</strong></p>
+<ol>
+<li><a href="https://www.cnblogs.com/zzyoucan/p/3918614.html" target="_blank" rel="noopener">https://www.cnblogs.com/zzyoucan/p/3918614.html</a></li>
+<li><a href="https://baike.baidu.com/item/pod/13976181?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/pod/13976181?fr=aladdin</a></li>
+</ol>
+<h3 id="enable-if"><a href="#enable-if" class="headerlink" title="enable_if"></a>enable_if</h3><p>最近摸鱼又摸到这么宝贝。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">Other1</span> = <span class="title">Ty1</span>, <span class="title">class</span> <span class="title">Other2</span> = <span class="title">Ty2</span>,</span></span><br><span class="line"><span class="class">  <span class="title">typename</span> = <span class="title">typename</span> <span class="title">std</span>:</span>:enable_if&lt;</span><br><span class="line">  <span class="built_in">std</span>::is_default_constructible&lt;Other1&gt;::value &amp;&amp;</span><br><span class="line">  <span class="built_in">std</span>::is_default_constructible&lt;Other2&gt;::value, <span class="keyword">void</span>&gt;::type&gt;</span><br><span class="line">  <span class="function"><span class="keyword">constexpr</span> <span class="title">pair</span><span class="params">()</span></span></span><br><span class="line">  : first(), second()&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先不谈这个<strong>typename =</strong> 到底是在搞哪样。就这个enable_if,我还没搞懂到底有什么用，先设个坑吧。给出的链接讲的很详细，就是例子里的东西看不懂。<br><img src="https://img-blog.csdnimg.cn/20190920105334968.jpg" alt="在这里插入图片描述"><br><strong>参见</strong></p>
+<ol>
+<li><a href="https://www.jianshu.com/p/a961c35910d2" target="_blank" rel="noopener">https://www.jianshu.com/p/a961c35910d2</a></li>
+</ol>
+<h3 id="unsigned-char"><a href="#unsigned-char" class="headerlink" title="unsigned char"></a>unsigned char</h3><ol>
+<li><p>char 与unsigned char均为一个字节，唯一的区别就是char类型最高位为符号位，表示范围为[-128,127];unsigned char表示范围[0,255]。</p>
+</li>
+<li><p>int/unsigned int变量赋值给 unsigned char变量是会发生字节截断(9位和高于9位的将被程序自动丢弃)。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> a = <span class="number">0xFFFFFFF7</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> b = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)a;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%x"</span>, b);<span class="comment">//f7</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在表示byte时，都用unsigned char。通常情况下，byte没有符号位，而将byte赋值给unsigned char之外的任何类型，都有可能发生符号扩展现象(包括unsigned char)。</p>
+</li>
+</ol>
+<p><strong>参见</strong></p>
+<ol>
+<li><a href="https://baike.baidu.com/item/unsigned%20char/3426526?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/unsigned%20char/3426526?fr=aladdin</a></li>
+</ol>
+<h3 id="static-cast-amp-amp-dynamic-cast"><a href="#static-cast-amp-amp-dynamic-cast" class="headerlink" title="static_cast &amp;&amp;dynamic_cast"></a>static_cast &amp;&amp;dynamic_cast</h3><p>static_cast其实就是c语言的强制类型转换……</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> a = <span class="string">'c'</span>;</span><br><span class="line"><span class="keyword">int</span> b = <span class="keyword">static_cast</span>&lt;<span class="keyword">char</span>&gt;(a);</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; b &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//99</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span>*c = <span class="keyword">new</span> <span class="keyword">double</span>;</span><br><span class="line"><span class="keyword">void</span> *d = <span class="keyword">static_cast</span>&lt;<span class="keyword">void</span>*&gt;(c);</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; <span class="keyword">typeid</span>(d).name() &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//void*</span></span><br><span class="line"></span><br><span class="line"> <span class="keyword">int</span> e = <span class="number">10</span>;</span><br><span class="line"> <span class="keyword">const</span> <span class="keyword">int</span> f = <span class="keyword">static_cast</span>&lt;<span class="keyword">const</span> <span class="keyword">int</span>&gt;(e);</span><br><span class="line"></span><br><span class="line"> <span class="keyword">const</span> <span class="keyword">int</span> g = <span class="number">10</span>;</span><br><span class="line"> <span class="comment">//错误，static_cast不能丢掉表达式的cv属性</span></span><br><span class="line"> <span class="keyword">int</span> *h = <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>*&gt;(&amp;g);</span><br><span class="line"> <span class="comment">//正确，这条其实可以隐式转换。</span></span><br><span class="line"> <span class="keyword">int</span> i = <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(g);</span><br></pre></td></tr></table></figure>
+
+<p>dynamic_cast将基类对象指针或引用转换到继承类指针，static_cast同样可以执行此操作。需要注意的是<strong>static_cast，没有运行时检查来保证转换的安全性，dynamic_cast具有类型检查功能，这在基类向派生类转换时需要尤其容易出错。</strong></p>
+<p><strong>参见</strong></p>
+<ol>
+<li><a href="https://blog.csdn.net/u014624623/article/details/79837849" target="_blank" rel="noopener">https://blog.csdn.net/u014624623/article/details/79837849</a></li>
+</ol>
+<p>最后我们来看一个例子。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">Size</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">char</span> *<span class="title">fill_n</span>(<span class="title">char</span> *<span class="title">first</span>, <span class="title">Size</span> <span class="title">n</span>, <span class="title">const</span> <span class="title">char</span>&amp;<span class="title">value</span>) &#123;</span></span><br><span class="line">	<span class="built_in">memset</span>(first, <span class="keyword">static_cast</span>&lt;<span class="keyword">unsigned</span> <span class="keyword">char</span>&gt;(value), n);</span><br><span class="line">	<span class="keyword">return</span> first + n;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> &lt;algorithm&gt;中的fill函数的一个重载，用value填充first指向的内存，n是填充的字节数。<br> …..其他也没什么好解释的了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/09/23/09_23_2019STL02/" data-id="ck0wcfzwj000fuwv9kce0htum" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/09/18/09_18_2019STL01/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">STL Day1</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统/">系统</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/语言/">语言</a><span class="category-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/">STL</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">10</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/23/09_23_2019STL02/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/18/09_18_2019STL01/">STL Day1</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/18/09_08_2019C++01/">C++ Primer const整理</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/16/09_16_2019C++03/">C++ Primer 拷贝控制</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/14/09_13_2019C++02/">C++ Primer OOP</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 W<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
