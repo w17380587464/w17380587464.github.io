@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>_countof _crt_countof宏 | BenBoErBa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="stdlib.h 123#ifndef _countof    #define _countof __crt_countof#endif">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="_countof _crt_countof宏">
+<meta property="og:url" content="http://yoursite.com/2019/10/07/10_07_2019C++04/index.html">
+<meta property="og:site_name" content="BenBoErBa">
+<meta property="og:description" content="stdlib.h 123#ifndef _countof    #define _countof __crt_countof#endif">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-10-06T17:52:07.324Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="_countof _crt_countof宏">
+<meta name="twitter:description" content="stdlib.h 123#ifndef _countof    #define _countof __crt_countof#endif">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">BenBoErBa</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-10_07_2019C++04" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/10/07/10_07_2019C++04/" class="article-date">
+  <time datetime="2019-10-06T17:52:07.324Z" itemprop="datePublished">2019-10-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/语言/">语言</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      _countof _crt_countof宏
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>stdlib.h</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _countof</span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">define</span> _countof __crt_countof</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<p><strong>vcryntime.h</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></span><br><span class="line">    <span class="keyword">extern</span> <span class="string">"C++"</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> _CountofType, <span class="keyword">size_t</span> _SizeOfArray&gt;</span><br><span class="line">        <span class="keyword">char</span> (*__countof_helper(_UNALIGNED _CountofType (&amp;_Array)[_SizeOfArray]))[_SizeOfArray];</span><br><span class="line"></span><br><span class="line">        <span class="meta">#<span class="meta-keyword">define</span> __crt_countof(_Array) (sizeof(*__countof_helper(_Array)) + 0)</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">define</span> __crt_countof(_Array) (sizeof(_Array) / sizeof(_Array[0]))</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>这里我们只看_crt_countof在C++中的定义，也就是:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> _CountofType, <span class="keyword">size_t</span> _SizeOfArray&gt;</span><br><span class="line"><span class="keyword">char</span> (*__countof_helper(_UNALIGNED _CountofType</span><br><span class="line">      (&amp;_Array)[_SizeOfArray]))[_SizeOfArray];</span><br><span class="line">        	</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __crt_countof(_Array) (sizeof(*__countof_helper(_Array)) + 0)</span></span><br></pre></td></tr></table></figure>
+
+<p>第二行代码很难理解，但是我们知道中间的 <strong>(*__countof_helper(_UNALIGNED _CountofType(&amp;_Array)[_SizeOfArray]))</strong> 是一个大小为_SizeOfArray的char数组，所以有:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> _CountofType, <span class="keyword">size_t</span> _SizeOfArray&gt;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">char</span> Array_t [_sizeOfArray];</span><br><span class="line"></span><br><span class="line">Array_t (*__countof_helper(_UNALIGNED _CountofType (&amp;_Array)[_SizeOfArray]));</span><br></pre></td></tr></table></figure>
+
+<p>现在我们可以很清楚的知道 <strong>__countof_helper</strong> 其实是一个函数，函数返回值解引用之后是一个大小为_SizeOfArray的char数组。</p>
+<p>我们再看函数参数,我们可以不管_UNALIGEND:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_CountofType (&amp;_Array)[_SizeOfArray]</span><br></pre></td></tr></table></figure>
+
+<p>像该函数传递一个类型为A，大小为B的数组后，模板_CountofType, size_t _SizeOfArray分别被推导为A，B。其中，B是size_t类型。</p>
+<p>最后是_crt_countof的定义:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __crt_countof(_Array) (sizeof(*__countof_helper(_Array)) + 0)</span></span><br></pre></td></tr></table></figure>
+
+<p>当我们使用一个int arr[10]类型数组调用_crt_countof宏时，首先执行的是这样的代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sizeof</span>(*__countof_helper(_Array))</span><br></pre></td></tr></table></figure>
+
+<p>sizeof在编译器获取类型产生结果，其中的__countof_helper函数不会执行。它的作用是推导出数组arr的类型_CountofType为int和数组大小(size_t _SizeOfArray)为10。函数返回值解引用之后是一个大小为10的char数组,最后使用sizeof获取该数组大小。</p>
+<p>其实，对于这样的代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> (*__countof_helper(_UNALIGNED _CountofType</span><br><span class="line">      (&amp;_Array)[_SizeOfArray]))[_SizeOfArray];</span><br></pre></td></tr></table></figure>
+
+<p>C++ Primer第五版 6.33给出了类似的东西，我们对比来看看:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> (*func(<span class="keyword">int</span> i</span><br><span class="line">	))[<span class="number">10</span>];</span><br></pre></td></tr></table></figure>
+
+<p>C++Primer是这样解释这个定义的:</p>
+<ol>
+<li><strong>func(int i)</strong> 表示调用func函数时需要一个int类型实参。</li>
+<li><strong>(*func(int i))</strong> 意味着我们可以对函数调用的结果执行解引用操作。</li>
+<li><strong>(*func(int i))[10]</strong> 表示解引用func的调用将得到一个大小为10的数组。</li>
+<li><strong>int (*func(int i))[10]</strong> 数组中元素类型为int。</li>
+</ol>
+<p>所以我们可以知道:</p>
+<ol>
+<li><strong>__countof_helper(_UNALIGNED _CountofType(&amp;_Array)[_SizeOfArray])</strong> <pre><code>调用__countof_helper函数需要里面那个乱七八糟的东西。</code></pre></li>
+<li><strong>(*__countof_helper(_UNALIGNED _CountofType(&amp;_Array)[_SizeOfArray]))</strong><pre><code>函数调用的结果解引用。</code></pre></li>
+<li><strong>(*__countof_helper(_UNALIGNED _CountofType(&amp;_Array)[_SizeOfArray]))[_SizeOfArray]</strong><pre><code>解引用函数调用将得到一个大小为10的数组。</code></pre></li>
+<li><strong>char (*__countof_helper(_UNALIGNED _CountofType(&amp;_Array)[_SizeOfArray]))[_SizeOfArray]</strong><pre><code>数组元素类型为char。</code></pre></li>
+</ol>
+<p>原博中需要注意的是array_t的类型,我在这里迷糊了很久，后面给出的C++Primer中的解释更好理解。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这里的array_t看起来是char []</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">char</span> <span class="keyword">array_t</span> [_SizeOfArray];</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> _CountofType, <span class="keyword">size_t</span> _SizeOfArray&gt;</span><br><span class="line"><span class="comment">//这里的array_t 又成了指向char[]数组的指针????</span></span><br><span class="line"><span class="keyword">array_t</span> _countof_helper(UNALIGNED _CountofType (&amp;_Array)[_SizeOfArray]);</span><br></pre></td></tr></table></figure>
+
+<p><strong>参见</strong></p>
+<ol>
+<li><a href="https://blog.csdn.net/hanzz2007/article/details/6667209" target="_blank" rel="noopener">https://blog.csdn.net/hanzz2007/article/details/6667209</a></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/10/07/10_07_2019C++04/" data-id="ck1fabkkl000jecv9xcht7khl" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/10/07/09_30_2019STL03/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          STL Day3
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/09/25/09_25_2019DS01/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">二叉搜索树</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/工具/object-Object/">[object Object]</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/工具/object-Object/STL/">STL</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统/">系统</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/语言/">语言</a><span class="category-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataStructure/">DataStructure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/">STL</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/07/09_30_2019STL03/">STL Day3</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/07/10_07_2019C++04/">_countof _crt_countof宏</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/25/09_25_2019DS01/">二叉搜索树</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/23/09_23_2019STL02/">STL Day2</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/18/09_18_2019STL01/">STL Day1</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 W<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
