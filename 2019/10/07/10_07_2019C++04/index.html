@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="BenBoErBa">
 <meta property="og:description" content="stdlib.h 123#ifndef _countof    #define _countof __crt_countof#endif">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-10-06T17:52:07.324Z">
+<meta property="og:updated_time" content="2019-10-06T18:02:40.120Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="_countof _crt_countof宏">
 <meta name="twitter:description" content="stdlib.h 123#ifndef _countof    #define _countof __crt_countof#endif">
@@ -64,7 +64,7 @@
         <section id="main"><article id="post-10_07_2019C++04" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/10/07/10_07_2019C++04/" class="article-date">
-  <time datetime="2019-10-06T17:52:07.324Z" itemprop="datePublished">2019-10-07</time>
+  <time datetime="2019-10-06T18:02:40.120Z" itemprop="datePublished">2019-10-07</time>
 </a>
     
   <div class="article-category">
@@ -91,6 +91,7 @@
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _countof</span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">define</span> _countof __crt_countof</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
 
 <a id="more"></a>
+
 
 <p><strong>vcryntime.h</strong></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></span><br><span class="line">    <span class="keyword">extern</span> <span class="string">"C++"</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> _CountofType, <span class="keyword">size_t</span> _SizeOfArray&gt;</span><br><span class="line">        <span class="keyword">char</span> (*__countof_helper(_UNALIGNED _CountofType (&amp;_Array)[_SizeOfArray]))[_SizeOfArray];</span><br><span class="line"></span><br><span class="line">        <span class="meta">#<span class="meta-keyword">define</span> __crt_countof(_Array) (sizeof(*__countof_helper(_Array)) + 0)</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">define</span> __crt_countof(_Array) (sizeof(_Array) / sizeof(_Array[0]))</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
@@ -144,7 +145,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/10/07/10_07_2019C++04/" data-id="ck1fal64f000h0sv955o0twfd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/10/07/10_07_2019C++04/" data-id="ck1fao4c3000h3sv9wo10hrtf" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li></ul>
@@ -156,9 +157,9 @@
 <nav id="article-nav">
   
   
-    <a href="/2019/09/25/09_25_2019DS01/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/10/07/10_07_2019STL03/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">二叉搜索树</div>
+      <div class="article-nav-title">STL Day3</div>
     </a>
   
 </nav>
@@ -174,7 +175,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统/">系统</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/语言/">语言</a><span class="category-list-count">6</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/工具/object-Object/">[object Object]</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/工具/object-Object/STL/">STL</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统/">系统</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/语言/">语言</a><span class="category-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -194,7 +195,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">11</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">11</span></li></ul>
     </div>
   </div>
 
@@ -211,6 +212,10 @@
           </li>
         
           <li>
+            <a href="/2019/10/07/10_07_2019STL03/">STL Day3</a>
+          </li>
+        
+          <li>
             <a href="/2019/09/25/09_25_2019DS01/">二叉搜索树</a>
           </li>
         
@@ -220,10 +225,6 @@
         
           <li>
             <a href="/2019/09/18/09_18_2019STL01/">STL Day1</a>
-          </li>
-        
-          <li>
-            <a href="/2019/09/18/09_08_2019C++01/">C++ Primer const整理</a>
           </li>
         
       </ul>
